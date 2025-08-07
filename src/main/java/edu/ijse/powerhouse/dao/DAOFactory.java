@@ -1,5 +1,6 @@
 package edu.ijse.powerhouse.dao;
 
+import edu.ijse.powerhouse.dao.custom.impl.MemberDAOImpl;
 import edu.ijse.powerhouse.dao.custom.impl.UserDAOImpl;
 import edu.ijse.powerhouse.dao.custom.impl.UserTypeDAOImpl;
 
@@ -14,7 +15,8 @@ public class DAOFactory {
     }
     public enum DAOType {
         USER,
-        USERTYPE
+        USERTYPE,
+        MEMBER
     }
 
     public SuperDAO getDAO(DAOType type) {
@@ -23,6 +25,8 @@ public class DAOFactory {
                 return new UserDAOImpl();
             case USERTYPE:
                 return new UserTypeDAOImpl();
+            case MEMBER:
+                return new MemberDAOImpl();
             default:
                 return null;
         }

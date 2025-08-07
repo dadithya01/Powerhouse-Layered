@@ -38,14 +38,14 @@ public class UserTypeDAOImpl implements UserTypeDAO {
     }
 
     @Override
-    public boolean exist(String id) throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQLUtil.executeQuery("SELECT user_type_id FROM User_Types WHERE user_type_id = ?", id);
+    public boolean exist(String userTypeId) throws SQLException, ClassNotFoundException {
+        ResultSet rst = SQLUtil.executeQuery("SELECT user_type_id FROM User_Types WHERE user_type_id = ?", userTypeId);
         return rst.next();
     }
 
     @Override
-    public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        return SQLUtil.executeUpdate(" Delete From User_Types where user_type_id = ? ", id);
+    public boolean delete(String userTypeId) throws SQLException, ClassNotFoundException {
+        return SQLUtil.executeUpdate(" Delete From User_Types where user_type_id = ? ", userTypeId);
     }
 
     @Override
@@ -67,13 +67,13 @@ public class UserTypeDAOImpl implements UserTypeDAO {
 
     @Override
     public boolean isDuplicateUserTypeForUpdate(String userTypeId, String userTypeName) throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQLUtil.executeQuery("SELECT user_type_id FROM User_Types WHERE type = ? AND user_type_id != ?", userTypeName, userTypeId);
+        ResultSet rst = SQLUtil.executeQuery("SELECT 1 FROM User_Types WHERE type = ? AND user_type_id != ?", userTypeName, userTypeId);
         return rst.next();
     }
 
     @Override
     public boolean isDuplicateUserType(String userTypeName) throws SQLException, ClassNotFoundException {
-        ResultSet rs = SQLUtil.executeQuery("SELECT * FROM User_Types WHERE type = ?", userTypeName);
+        ResultSet rs = SQLUtil.executeQuery("SELECT 1 FROM User_Types WHERE type = ?", userTypeName);
         return rs.next();
     }
 }

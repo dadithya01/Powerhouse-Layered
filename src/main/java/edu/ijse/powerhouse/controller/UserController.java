@@ -228,8 +228,8 @@ public class UserController implements Initializable {
         }
     }
 
-    boolean existUser(String id) throws SQLException, ClassNotFoundException {
-        return userBO.existUser(id);
+    boolean existUser(String userId) throws SQLException, ClassNotFoundException {
+        return userBO.existUser(userId);
     }
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {

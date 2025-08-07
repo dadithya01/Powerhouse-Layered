@@ -1,7 +1,6 @@
 package edu.ijse.powerhouse.controller;
 
 import edu.ijse.powerhouse.util.AnimationsUtil;
-import edu.ijse.powerhouse.util.AnimationsUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,7 +52,7 @@ public class DashBoardOAController implements Initializable {
     @FXML
     void btnUserListOnAction() throws IOException {
         sidePane.getChildren().clear();
-        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/UserList.fxml"));
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/User.fxml"));
         sidePane.getChildren().add(load);
     }
 
@@ -81,7 +80,7 @@ public class DashBoardOAController implements Initializable {
     @FXML
     void btnMemberListOnAction() throws IOException {
         sidePane.getChildren().clear();
-        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/MemberList.fxml"));
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/Member.fxml"));
         sidePane.getChildren().add(load);
     }
 

@@ -57,14 +57,14 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean exist(String id) throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQLUtil.executeQuery("SELECT user_Id FROM Users WHERE user_Id = ?", id);
+    public boolean exist(String userId) throws SQLException, ClassNotFoundException {
+        ResultSet rst = SQLUtil.executeQuery("SELECT user_Id FROM Users WHERE user_Id = ?", userId);
         return rst.next();  
     }
 
     @Override
-    public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        return SQLUtil.executeUpdate("DELETE FROM Users WHERE user_Id = ?", id);
+    public boolean delete(String userId) throws SQLException, ClassNotFoundException {
+        return SQLUtil.executeUpdate("DELETE FROM Users WHERE user_Id = ?", userId);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean isDuplicateUserForUpdate(String userId, String email, String userName, String phone) throws SQLException, ClassNotFoundException {
         ResultSet rs = SQLUtil.executeQuery(
-                "SELECT * FROM Users WHERE (email = ? OR Username = ? OR phone = ?) AND user_Id != ?",
+                "SELECT 1 FROM Users WHERE (email = ? OR Username = ? OR phone = ?) AND user_Id != ?",
                 email, userName, phone, userId
         );
         return rs.next();
@@ -97,7 +97,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean isDuplicateUser(String email, String userName, String phone) throws SQLException, ClassNotFoundException {
         ResultSet rs = SQLUtil.executeQuery(
-                "SELECT * FROM Users WHERE email = ? OR Username = ? OR phone = ?",
+                "SELECT 1 FROM Users WHERE email = ? OR Username = ? OR phone = ?",
                 email, userName, phone
         );
         return rs.next();

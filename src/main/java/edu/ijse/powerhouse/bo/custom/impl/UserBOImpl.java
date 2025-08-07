@@ -63,13 +63,13 @@ public class UserBOImpl implements UserBO {
     }
 
     @Override
-    public boolean existUser(String id) throws SQLException, ClassNotFoundException {
-        return userDAO.exist(id);
+    public boolean existUser(String userId) throws SQLException, ClassNotFoundException {
+        return userDAO.exist(userId);
     }
 
     @Override
-    public boolean deleteUser(String id) throws SQLException, ClassNotFoundException {
-        return userDAO.delete(id);
+    public boolean deleteUser(String userId) throws SQLException, ClassNotFoundException {
+        return userDAO.delete(userId);
     }
 
     @Override

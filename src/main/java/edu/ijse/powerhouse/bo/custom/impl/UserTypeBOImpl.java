@@ -42,13 +42,13 @@ public class UserTypeBOImpl implements UserTypeBO {
     }
 
     @Override
-    public boolean deleteUserType(String id) throws SQLException, ClassNotFoundException {
-        return userTypeDAO.delete(id);
+    public boolean deleteUserType(String userTypeId) throws SQLException, ClassNotFoundException {
+        return userTypeDAO.delete(userTypeId);
     }
 
     @Override
-    public boolean existUserType(String id) throws SQLException, ClassNotFoundException {
-        return userTypeDAO.exist(id);
+    public boolean existUserType(String userTypeId) throws SQLException, ClassNotFoundException {
+        return userTypeDAO.exist(userTypeId);
     }
 
     @Override

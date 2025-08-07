@@ -1,5 +1,6 @@
 package edu.ijse.powerhouse.bo;
 
+import edu.ijse.powerhouse.bo.custom.impl.MemberBOImpl;
 import edu.ijse.powerhouse.bo.custom.impl.UserBOImpl;
 import edu.ijse.powerhouse.bo.custom.impl.UserTypeBOImpl;
 
@@ -12,7 +13,8 @@ public class BOFactory {
     }
     public enum BOType {
         USER,
-        USERTYPE
+        USERTYPE,
+        MEMBER
     }
     public SuperBO getBO(BOType type) {
         switch (type) {
@@ -20,6 +22,8 @@ public class BOFactory {
                 return new UserBOImpl();
             case USERTYPE:
                 return new UserTypeBOImpl();
+            case MEMBER:
+                return new MemberBOImpl();
             default:
                 return null;
         }
