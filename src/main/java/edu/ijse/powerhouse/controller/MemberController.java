@@ -1,9 +1,12 @@
 package edu.ijse.powerhouse.controller;
 
-import edu.ijse.powerhouse.dto.MemberListDto;
-import edu.ijse.powerhouse.dto.tm.MemberListTM;
-import edu.ijse.powerhouse.model.MemberListModel;
-import javafx.collections.FXCollections;
+import edu.ijse.powerhouse.bo.BOFactory;
+import edu.ijse.powerhouse.bo.custom.MemberBO;
+import edu.ijse.powerhouse.dao.custom.impl.MemberDAOImpl;
+import edu.ijse.powerhouse.dto.MemberDTO;
+import edu.ijse.powerhouse.view.tdm.MemberTM;
+import edu.ijse.powerhouse.util.AnimationsUtil;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -12,11 +15,13 @@ import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MemberController implements Initializable {
 
+    public Label lblMain;
     public Label lblMemberId;
     public TextField txtName;
     public TextField txtWeight;
@@ -29,70 +34,65 @@ public class MemberController implements Initializable {
     public TextField txtRegistrationDate;
     public TextField txtMembershipStatus;
     public TextField txtAddedBy;
-
-    public TableView<MemberListTM> tblMemberList;
-    public TableColumn<MemberListTM, String> colId;
-    public TableColumn<MemberListTM, String> colName;
-    public TableColumn<MemberListTM, String> colWeight;
-    public TableColumn<MemberListTM, String> colHeight;
-    public TableColumn<MemberListTM, String> colAge;
-    public TableColumn<MemberListTM, String> colPhone;
-    public TableColumn<MemberListTM, String> colEmergencyContact;
-    public TableColumn<MemberListTM, String> colMedicalConditions;
-    public TableColumn<MemberListTM, String> colFitnessGoals;
-    public TableColumn<MemberListTM, String> colRegistrationDate;
-    public TableColumn<MemberListTM, String> colMembershipStatus;
-    public TableColumn<MemberListTM, String> colAddedBy;
-
-    private final MemberListModel memberListModel = new MemberListModel();
+    public TableView<MemberTM> tblMember;
     public Button btnSave;
     public Button btnUpdate;
     public Button btnDelete;
     public Button btnClear;
 
+    MemberBO memberBO= (MemberBO) BOFactory.getInstance().getBO(BOFactory.BOType.MEMBER);
+    MemberDAOImpl memberDAOImpl= new MemberDAOImpl();
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        colId.setCellValueFactory(new PropertyValueFactory<>("member_id"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colWeight.setCellValueFactory(new PropertyValueFactory<>("weight"));
-        colHeight.setCellValueFactory(new PropertyValueFactory<>("height"));
-        colAge.setCellValueFactory(new PropertyValueFactory<>("age"));
-        colPhone.setCellValueFactory(new PropertyValueFactory<>("contact"));
-        colEmergencyContact.setCellValueFactory(new PropertyValueFactory<>("emergency_contact"));
-        colMedicalConditions.setCellValueFactory(new PropertyValueFactory<>("medical_conditions"));
-        colFitnessGoals.setCellValueFactory(new PropertyValueFactory<>("fitness_goals"));
-        colRegistrationDate.setCellValueFactory(new PropertyValueFactory<>("register_date"));
-        colMembershipStatus.setCellValueFactory(new PropertyValueFactory<>("membership_status"));
-        colAddedBy.setCellValueFactory(new PropertyValueFactory<>("added_by"));
+        tblMember.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("member_id"));
+        tblMember.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
+        tblMember.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("weight"));
+        tblMember.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("height"));
+        tblMember.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("age"));
+        tblMember.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("contact"));
+        tblMember.getColumns().get(6).setCellValueFactory(new PropertyValueFactory<>("emergency_contact"));
+        tblMember.getColumns().get(7).setCellValueFactory(new PropertyValueFactory<>("medical_conditions"));
+        tblMember.getColumns().get(8).setCellValueFactory(new PropertyValueFactory<>("fitness_goals"));
+        tblMember.getColumns().get(9).setCellValueFactory(new PropertyValueFactory<>("register_date"));
+        tblMember.getColumns().get(10).setCellValueFactory(new PropertyValueFactory<>("membership_status"));
+        tblMember.getColumns().get(11).setCellValueFactory(new PropertyValueFactory<>("added_by"));
+        AnimationsUtil.AnimateLabelSlideIn(lblMain);
+        AnimationsUtil.AnimateLabelSlideIn(lblMain);
+        AnimationsUtil.AddFancyHoverAnimation(btnSave, "#27ae60", "#353b48");
+        AnimationsUtil.AddFancyHoverAnimation(btnUpdate, "#2980b9", "#353b48");
+        AnimationsUtil.AddFancyHoverAnimation(btnDelete, "#e74c3c", "#353b48");
+        AnimationsUtil.AddFancyHoverAnimation(btnClear, "#130f40", "#353b48");
 
         try {
             resetPage();
             loadNextId();
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
+            showErrorAlert("Something went wrong : "+e.getMessage());
         }
     }
 
     public void loadTableData() throws SQLException, ClassNotFoundException {
-        tblMemberList.setItems(FXCollections.observableArrayList(
-                memberListModel.getAllMembers()
-                        .stream()
-                        .map(memberListDto -> new MemberListTM(
-                                memberListDto.getMember_id(),
-                                memberListDto.getName(),
-                                memberListDto.getWeight(),
-                                memberListDto.getHeight(),
-                                memberListDto.getAge(),
-                                memberListDto.getContact(),
-                                memberListDto.getEmergency_contact(),
-                                memberListDto.getMedical_conditions(),
-                                memberListDto.getFitness_goals(),
-                                memberListDto.getRegister_date(),
-                                memberListDto.getMembership_status(),
-                                memberListDto.getAdded_by()
-                        )).toList()
-        ));
+        tblMember.getItems().clear();
+        ArrayList<MemberDTO> allMembers = memberBO.getAllMembers();
+        for (MemberDTO memberDTO: allMembers){
+            tblMember.getItems().add(
+                    new MemberTM(
+                            memberDTO.getMember_id(),
+                            memberDTO.getName(),
+                            memberDTO.getWeight(),
+                            memberDTO.getHeight(),
+                            memberDTO.getAge(),
+                            memberDTO.getContact(),
+                            memberDTO.getEmergency_contact(),
+                            memberDTO.getMedical_conditions(),
+                            memberDTO.getFitness_goals(),
+                            memberDTO.getRegister_date(),
+                            memberDTO.getMembership_status(),
+                            memberDTO.getAdded_by()
+                    )
+            );
+        }
     }
 
     private void resetPage() {
@@ -118,58 +118,67 @@ public class MemberController implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
+            showErrorAlert("Something went wrong : "+e.getMessage());
         }
     }
 
     private boolean isValidInput() {
         if (txtName.getText().isBlank()) {
-            showAlert("Name is required.");
+            showWarnerAlert("Name is required.");
             return false;
         }
         if (!txtWeight.getText().matches("\\d+(\\.\\d+)?")) {
-            showAlert("Enter a valid weight (e.g., 70.5).");
+            showWarnerAlert("Enter a valid weight (e.g., 70.5).");
             return false;
         }
         if (!txtHeight.getText().matches("\\d+(\\.\\d+)?")) {
-            showAlert("Enter a valid height (e.g., 175.0).");
+            showWarnerAlert("Enter a valid height (e.g., 175.0).");
             return false;
         }
         if (!txtAge.getText().matches("\\d{1,3}")) {
-            showAlert("Enter a valid age (e.g., 25).");
+            showWarnerAlert("Enter a valid age (e.g., 25).");
             return false;
         }
         if (!txtPhone.getText().matches("\\d{10,15}")) {
-            showAlert("Enter a valid phone number (10-15 digits).");
+            showWarnerAlert("Enter a valid phone number (10-15 digits).");
             return false;
         }
         if (!txtEmergencyContact.getText().matches("\\d{10,15}")) {
-            showAlert("Enter a valid emergency contact number.");
+            showWarnerAlert("Enter a valid emergency contact number.");
             return false;
         }
         if (txtRegistrationDate.getText().isBlank()) {
-            showAlert("Registration date is required.");
+            showWarnerAlert("Registration date is required.");
             return false;
         }
         if (txtMembershipStatus.getText().isBlank()) {
-            showAlert("Membership status is required.");
+            showWarnerAlert("Membership status is required.");
             return false;
         }
         if (txtAddedBy.getText().isBlank()) {
-            showAlert("Added By field is required.");
+            showWarnerAlert("Added By field is required.");
             return false;
         }
 
         return true;
     }
 
-    private void showAlert(String message) {
+    private void showWarnerAlert(String message) {
         new Alert(Alert.AlertType.WARNING, message).show();
     }
 
-    public void btnSaveOnAction(ActionEvent actionEvent) {
+    private void showErrorAlert(String message) {
+        new Alert(Alert.AlertType.ERROR, message).show();
+    }
 
-        if (!isValidInput()) return;
+    private void showSuccessAlert(String message) {
+        Alert alert=new Alert(Alert.AlertType.CONFIRMATION, message);
+        alert.setTitle("Success!");
+        alert.setHeaderText("Success!");
+        alert.show();
+    }
+
+    public void btnSaveOnAction(ActionEvent actionEvent) {
 
         String memberId = lblMemberId.getText();
         String name = txtName.getText();
@@ -184,39 +193,37 @@ public class MemberController implements Initializable {
         String membershipStatus = txtMembershipStatus.getText();
         String addedBy = txtAddedBy.getText();
 
-        MemberListDto memberListDto = new MemberListDto(
-                memberId,
-                name,
-                weight,
-                height,
-                age,
-                contact,
-                emergencyContact,
-                medicalConditions,
-                fitnessGoals,
-                registrationDate,
-                membershipStatus,
-                addedBy
-        );
-        try {
-            boolean isSaved = memberListModel.saveMember(memberListDto);
+        if (!isValidInput()) return;
 
-            if (isSaved) {
-                resetPage();
-                new Alert(Alert.AlertType.INFORMATION, "Saved").show();
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Fail").show();
+        try {
+            if (memberDAOImpl.isDuplicateMember( contact)){
+                showWarnerAlert("This contact number is already registered.");
+                return;
             }
+            memberBO.saveMember(new MemberDTO(
+                    memberId,
+                    name,
+                    weight,
+                    height,
+                    age,
+                    contact,
+                    emergencyContact,
+                    medicalConditions,
+                    fitnessGoals,
+                    registrationDate,
+                    membershipStatus,
+                    addedBy
+            ));
+            showSuccessAlert("Member saved successfully!");
+            resetPage();
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Something went wrong").show();
+            showErrorAlert("Failed to save member : " + e.getMessage());
         }
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
 
-        if (!isValidInput()) return;
-
         String memberId = lblMemberId.getText();
         String name = txtName.getText();
         Double weight = Double.valueOf(txtWeight.getText());
@@ -230,35 +237,40 @@ public class MemberController implements Initializable {
         String membershipStatus = txtMembershipStatus.getText();
         String addedBy = txtAddedBy.getText();
 
-        MemberListDto memberListDto = new MemberListDto(
-                memberId,
-                name,
-                weight,
-                height,
-                age,
-                contact,
-                emergencyContact,
-                medicalConditions,
-                fitnessGoals,
-                registrationDate,
-                membershipStatus,
-                addedBy
-        );
+        if (!isValidInput()) return;
+
         try {
-            boolean isUpdated = memberListModel.updateMember(memberListDto);
-            if(isUpdated){
-                resetPage();
-                new Alert(Alert.AlertType.INFORMATION,"Updated").show();
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Fail").show();
+            if (memberDAOImpl.isDuplicateMemberForUpdate(memberId, contact)) {
+                showWarnerAlert("This contact number is already registered for another member.");
+                return;
             }
+            memberBO.updateMember(new MemberDTO(
+                    memberId,
+                    name,
+                    weight,
+                    height,
+                    age,
+                    contact,
+                    emergencyContact,
+                    medicalConditions,
+                    fitnessGoals,
+                    registrationDate,
+                    membershipStatus,
+                    addedBy
+            ));
+            showSuccessAlert("Member updated successfully!");
+            resetPage();
         }catch (Exception e){
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR,"Something went wrong").show();
+            showErrorAlert("Failed to update member : " + e.getMessage());
         }
     }
 
-    public void btnDeleteOnAction(ActionEvent actionEvent) {
+    public boolean existMember(String memberId) throws SQLException, ClassNotFoundException {
+        return memberBO.existMember(memberId);
+    }
+
+    public void btnDeleteOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         Alert alert = new Alert(
                 Alert.AlertType.CONFIRMATION,
                 "Are You Sure ? ",
@@ -270,32 +282,37 @@ public class MemberController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             String memberId = lblMemberId.getText();
             try {
-                boolean isDeleted = memberListModel.deleteMember(memberId);
-                if(isDeleted){
-                    resetPage();
-                    new Alert(Alert.AlertType.INFORMATION,"Deleted").show();
-                }else {
-                    new Alert(Alert.AlertType.ERROR,"Fail").show();
+                if (!existMember(memberId)) {
+                    showWarnerAlert("Member with ID : " + memberId + " does not exist.");
+                    return;
                 }
+                memberBO.deleteMember(memberId);
+                showSuccessAlert("Member deleted successfully!");
+                resetPage();
             }catch (Exception e){
                 e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR,"Something went wrong").show();
+                showErrorAlert("Failed to delete member : " + e.getMessage());
             }
         }
     }
-
 
     public void btnClearOnAction(ActionEvent actionEvent) {
         resetPage();
     }
 
-    private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = memberListModel.getNextMemberId();
-        lblMemberId.setText(nextId);
+    private String loadNextId() throws SQLException, ClassNotFoundException {
+        try {
+            String newId = memberBO.generateNewMemberId();
+            lblMemberId.setText(newId);
+        } catch (SQLException | ClassNotFoundException e) {
+            showErrorAlert("Failed to generate a new user ID : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public void getData(MouseEvent mouseEvent) {
-        MemberListTM selectedItem = tblMemberList.getSelectionModel().getSelectedItem();
+        MemberTM selectedItem = tblMember.getSelectionModel().getSelectedItem();
 
         if (selectedItem != null) {
             lblMemberId.setText(selectedItem.getMember_id());

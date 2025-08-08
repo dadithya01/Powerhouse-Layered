@@ -81,9 +81,8 @@ public class UserDAOImpl implements UserDAO {
 
             return nextIdString;
         }
-        return tableCharacter+ "1";
+        return tableCharacter+ "001";
     }
-
 
     @Override
     public boolean isDuplicateUserForUpdate(String userId, String email, String userName, String phone) throws SQLException, ClassNotFoundException {

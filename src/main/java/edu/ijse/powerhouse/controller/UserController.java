@@ -6,6 +6,7 @@ import edu.ijse.powerhouse.dao.custom.impl.UserDAOImpl;
 import edu.ijse.powerhouse.dto.UserDTO;
 import edu.ijse.powerhouse.view.tdm.UserTM;
 import edu.ijse.powerhouse.util.AnimationsUtil;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -15,7 +16,6 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
-
 
 public class UserController implements Initializable {
 
@@ -27,10 +27,9 @@ public class UserController implements Initializable {
     public TextField txtPassword;
     public TextField txtUserTypeId;
     public TextField txtRegistrationDate;
-    public TextField txtStatus;
+    public ComboBox <String> cmbStatus;
     public Label lblMain;
     public TableView<UserTM> tblUsers;
-
     public Button btnSave;
     public Button btnUpdate;
     public Button btnDelete;
@@ -49,6 +48,8 @@ public class UserController implements Initializable {
         tblUsers.getColumns().get(6).setCellValueFactory(new PropertyValueFactory<>("userTypeId"));
         tblUsers.getColumns().get(7).setCellValueFactory(new PropertyValueFactory<>("registrationDate"));
         tblUsers.getColumns().get(8).setCellValueFactory(new PropertyValueFactory<>("status"));
+        cmbStatus.getItems().clear();
+        cmbStatus.getItems().addAll("Active", "Inactive");
         AnimationsUtil.AnimateLabelSlideIn(lblMain);
         AnimationsUtil.AddFancyHoverAnimation(btnSave, "#27ae60", "#353b48");
         AnimationsUtil.AddFancyHoverAnimation(btnUpdate, "#2980b9", "#353b48");
@@ -60,7 +61,7 @@ public class UserController implements Initializable {
             loadNextId();
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
+            showErrorAlert("Something went wrong : "+e.getMessage());
         }
     }
 
@@ -100,68 +101,68 @@ public class UserController implements Initializable {
             txtPassword.setText(null);
             txtUserTypeId.setText(null);
             txtRegistrationDate.setText(null);
-            txtStatus.setText(null);
+            cmbStatus.setValue(null);
 
 
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
+            showErrorAlert("Something went wrong : "+e.getMessage());
         }
     }
 
     private boolean isValidInput() {
-        String name = txtName.getText().trim();
-        String phone = txtPhone.getText().trim();
-        String email = txtEmail.getText().trim();
-        String userName = txtUserName.getText().trim();
-        String password = txtPassword.getText().trim();
-        String userTypeId = txtUserTypeId.getText().trim();
-        String registrationDate = txtRegistrationDate.getText().trim();
-        String status = txtStatus.getText().trim();
-
-        if (name.isEmpty() || name.length() > 50) {
-            new Alert(Alert.AlertType.WARNING, "Name is required and must be under 50 characters.").show();
+        if (txtName.getText().isBlank() || txtName.getLength() > 50) {
+            showWarnerAlert("Name is required and must be under 50 characters.");
             return false;
         }
 
-        if (!phone.matches("\\d{10}")) {
-            new Alert(Alert.AlertType.WARNING, "Phone number must be 10 digits.").show();
+        if (!txtPhone.getText().matches("\\d{10}")) {
+            showWarnerAlert("Phone number must be 10 digits.");
             return false;
         }
 
-        if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
-            new Alert(Alert.AlertType.WARNING, "Invalid email format.").show();
+        if (!txtEmail.getText().matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
+            showWarnerAlert("Invalid email format.");
             return false;
         }
 
-        if (userName.isEmpty() || userName.length() > 30) {
-            new Alert(Alert.AlertType.WARNING, "Username is required and must be under 30 characters.").show();
+        if (txtUserName.getText().isBlank() || txtUserName.getLength() > 30) {
+            showWarnerAlert("Username is required and must be under 30 characters.");
             return false;
         }
 
-        if (password.isEmpty() || password.length() < 6) {
-            new Alert(Alert.AlertType.WARNING, "Password must be at least 6 characters long.").show();
+        if (txtPassword.getText().isBlank() || txtPassword.getLength() < 6) {
+            showWarnerAlert("Password must be at least 6 characters long.");
             return false;
         }
 
-        if (userTypeId.isEmpty() || userTypeId.length() > 10) {
-            new Alert(Alert.AlertType.WARNING, "User Type ID must be under 10 characters.").show();
+        if (txtUserTypeId.getText().isBlank() || txtUserTypeId.getLength() > 10) {
+            showWarnerAlert("User Type ID must be under 10 characters.");
             return false;
         }
 
-        if (!registrationDate.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
-            new Alert(Alert.AlertType.WARNING, "Registration date must be in YYYY-MM-DD format.").show();
-            return false;
-        }
-
-        if (status.isEmpty() || (!status.equalsIgnoreCase("Active") && !status.equalsIgnoreCase("Inactive"))) {
-            new Alert(Alert.AlertType.WARNING, "Status must be either 'Active' or 'Inactive'.").show();
+        if (!txtRegistrationDate.getText().matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+            showWarnerAlert("Registration date must be in YYYY-MM-DD format.");
             return false;
         }
 
         return true;
     }
 
+    private void showWarnerAlert(String message) {
+        new Alert(Alert.AlertType.WARNING, message).show();
+    }
+
+    private void showErrorAlert(String message) {
+        new Alert(Alert.AlertType.ERROR, message).show();
+    }
+
+    private void showSuccessAlert(String message) {
+        Alert alert=new Alert(Alert.AlertType.CONFIRMATION, message);
+        alert.setTitle("Success!");
+        alert.setHeaderText("Success!");
+        alert.show();
+    }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
 
@@ -173,29 +174,29 @@ public class UserController implements Initializable {
         String password = txtPassword.getText();
         String userTypeId = txtUserTypeId.getText();
         String registrationDate = txtRegistrationDate.getText();
-        String status = txtStatus.getText();
+        String status = cmbStatus.getValue();
 
         if (!isValidInput()) return;
 
         try {
             if (userDAOImpl.isDuplicateUser(email, userName, phone)) {
-                new Alert(Alert.AlertType.WARNING, "Duplicate user detected (Email, Username or Phone already exists).").show();
+                showWarnerAlert("Duplicate user detected (Email, Username or Phone already exists).");
                 return;
             }
             userBO.saveUser(new UserDTO(
                     userId, name, phone, email, userName,
                     password, userTypeId, registrationDate, status
             ));
-            new Alert(Alert.AlertType.INFORMATION, "User saved successfully!").show();
+            showSuccessAlert("User saved successfully!");
             resetPage();
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to save the User " + e.getMessage()).show();
+            showErrorAlert("Failed to save the User : " + e.getMessage());
         }
     }
 
-        public void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException {
+    public void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException {
 
         if (!isValidInput()) return;
 
@@ -207,11 +208,11 @@ public class UserController implements Initializable {
         String userPassword = txtPassword.getText();
         String userTypeId = txtUserTypeId.getText();
         String userRegistrationDate = txtRegistrationDate.getText();
-        String userStatus = txtStatus.getText();
+        String userStatus = cmbStatus.getValue();
 
         try {
             if (userDAOImpl.isDuplicateUserForUpdate(userId, userEmail, userName, userContact)) {
-                new Alert(Alert.AlertType.WARNING, "Duplicate email, username, or phone number found for another user.").show();
+                showWarnerAlert("Duplicate email, username, or phone number found for another user.");
                 return;
             }
 
@@ -219,12 +220,12 @@ public class UserController implements Initializable {
                     userId, userName, userContact, userEmail, userUserName,
                     userPassword, userTypeId, userRegistrationDate, userStatus
             ));
-            new Alert(Alert.AlertType.INFORMATION, "User updated successfully!").show();
+            showSuccessAlert("User updated successfully!");
             resetPage();
 
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to update User").show();
+            showErrorAlert("Failed to update User : " + e.getMessage());
         }
     }
 
@@ -245,14 +246,14 @@ public class UserController implements Initializable {
             String userId = tblUsers.getSelectionModel().getSelectedItem().getUserId();
             try {
                 if (!existUser(userId)){
-                    new Alert(Alert.AlertType.ERROR,"There is no such user associated with the id " + userId).show();
+                    showWarnerAlert("User with ID : " + userId + " does not exist.");
                 }
                 userBO.deleteUser(userId);
-                new Alert(Alert.AlertType.INFORMATION,"User deleted successfully").show();
+                showSuccessAlert("User deleted successfully");
                 resetPage();
             }catch (Exception e){
                 e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR,"Failed to delete User").show();
+                showErrorAlert("Failed to delete User : " + e.getMessage());
             }
         }
     }
@@ -266,12 +267,11 @@ public class UserController implements Initializable {
             String newId = userBO.generateNewUserId();
             lblUserId.setText(newId);
         } catch (SQLException | ClassNotFoundException e) {
-            new Alert(Alert.AlertType.ERROR, "Failed to generate a new user ID: " + e.getMessage()).show();
+            showErrorAlert("Failed to generate a new user ID : " + e.getMessage());
             e.printStackTrace();
         }
         return "";
     }
-
 
     public void getData(MouseEvent mouseEvent) {
         UserTM selectedItem = tblUsers.getSelectionModel().getSelectedItem();
@@ -285,7 +285,7 @@ public class UserController implements Initializable {
             txtPassword.setText(selectedItem.getPassword());
             txtUserTypeId.setText(selectedItem.getUserTypeId());
             txtRegistrationDate.setText(selectedItem.getRegistrationDate());
-            txtStatus.setText(selectedItem.getStatus());
+            cmbStatus.setValue(selectedItem.getStatus());
 
             btnSave.setDisable(true);
             btnUpdate.setDisable(false);

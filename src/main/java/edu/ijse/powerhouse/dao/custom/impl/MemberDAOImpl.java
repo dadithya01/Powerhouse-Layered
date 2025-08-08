@@ -95,7 +95,7 @@ public class MemberDAOImpl implements MemberDAO {
 
             return nextIdString;
         }
-        return tableCharacter+ "1";
+        return tableCharacter+ "001";
     }
 
     @Override

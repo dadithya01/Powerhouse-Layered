@@ -6,6 +6,7 @@ import edu.ijse.powerhouse.dao.custom.impl.UserTypeDAOImpl;
 import edu.ijse.powerhouse.dto.UserTypeDTO;
 import edu.ijse.powerhouse.view.tdm.UserTypeTM;
 import edu.ijse.powerhouse.util.AnimationsUtil;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -24,7 +25,6 @@ public class UserTypesController implements Initializable {
     public TextField txtType;
     public Label lblMain;
     public TableView<UserTypeTM> tblUserTypes;
-
     public Button btnSave;
     public Button btnUpdate;
     public Button btnDelete;
@@ -47,7 +47,7 @@ public class UserTypesController implements Initializable {
             loadNextId();
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
+            showErrorAlert("Something went wrong : "+ e.getMessage());
         }
     }
 
@@ -78,31 +78,44 @@ public class UserTypesController implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
+            showErrorAlert("Something went wrong : "+e.getMessage());
         }
     }
 
     private boolean isValidInput() {
-        String type = txtType.getText();
 
-        if (type == null || type.trim().isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "User type cannot be empty!").show();
+        if (txtType == null || txtType.getText().isBlank()) {
+            showWarnerAlert(" Type cant be empty!");
             return false;
         }
 
-        if (!type.matches("[A-Za-z ]+")) {
-            new Alert(Alert.AlertType.WARNING, "User type must contain only letters and spaces!").show();
+        if (!txtType.getText().matches("[A-Za-z ]+")) {
+            showWarnerAlert("User type must contain only letters and spaces!");
             return false;
         }
 
-        if (type.length() > 30) {
-            new Alert(Alert.AlertType.WARNING, "User type is too long!").show();
+        if (txtType.getLength() > 30) {
+            showWarnerAlert("User type is too long!");
             return false;
         }
 
         return true;
     }
 
+    private void showWarnerAlert(String message) {
+        new Alert(Alert.AlertType.WARNING, message).show();
+    }
+
+    private void showErrorAlert(String message) {
+        new Alert(Alert.AlertType.ERROR, message).show();
+    }
+
+    private void showSuccessAlert(String message) {
+        Alert alert=new Alert(Alert.AlertType.CONFIRMATION, message);
+        alert.setTitle("Success!");
+        alert.setHeaderText("Success!");
+        alert.show();
+    }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
 
@@ -113,18 +126,18 @@ public class UserTypesController implements Initializable {
 
         try {
             if (userTypeDAOImpl.isDuplicateUserType( userTypeName)) {
-                new Alert(Alert.AlertType.ERROR, "User type already exists!").show();
+                showWarnerAlert("User type already exists!");
                 return;
             }
             userTypeBO.saveUserType(new UserTypeDTO(
                     userTypeId,
                     userTypeName
             ));
-            new Alert(Alert.AlertType.INFORMATION, "User type saved successfully!").show();
+            showSuccessAlert("User type saved successfully!");
             resetPage();
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to save the User type " + e.getMessage()).show();
+            showErrorAlert("Failed to save the User type : " + e.getMessage());
         }
     }
 
@@ -138,18 +151,17 @@ public class UserTypesController implements Initializable {
 
         try {
             if (userTypeDAOImpl.isDuplicateUserTypeForUpdate(userTypeId, userTypeName)) {
-                new Alert(Alert.AlertType.ERROR, "User type already exists!").show();
+                showWarnerAlert("User type already exists!");
                 return;
             }
             userTypeBO.updateUserType(new UserTypeDTO(
                     userTypeId,
                     userTypeName
             ));
-            new Alert(Alert.AlertType.INFORMATION, "User type updated successfully!").show();
-            resetPage();
+            showSuccessAlert("User type updated successfully!");
         }catch (Exception e){
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR,"Fail to update User type").show();
+            showSuccessAlert("Fail to update User type : "+e.getMessage());
         }
     }
 
@@ -170,18 +182,17 @@ public class UserTypesController implements Initializable {
             String userTypeId = lblUserTypeId.getText();
             try {
                 if (!existUserType(userTypeId)){
-                    new Alert(Alert.AlertType.ERROR,"There is no such user type associated with the id " + userTypeId).show();
+                    showWarnerAlert("User type with ID : " + userTypeId +" does not exist.");
                 }
                 userTypeBO.deleteUserType(userTypeId);
-                new Alert(Alert.AlertType.INFORMATION, "User type deleted successfully!").show();
+                showSuccessAlert("User type deleted successfully!");
                 resetPage();
             }catch (Exception e){
                 e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR,"Fail to delete User type").show();
+                showErrorAlert("Fail to delete User type : "+e.getMessage());
             }
         }
     }
-
 
     public void btnClearOnAction(ActionEvent actionEvent) {
         resetPage();
@@ -193,7 +204,7 @@ public class UserTypesController implements Initializable {
             lblUserTypeId.setText(newId);
         } catch (SQLException| ClassNotFoundException e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to generate new User Type ID: " +e.getMessage()).show();
+            showErrorAlert("Failed to generate new User Type ID : " +e.getMessage());
             throw new RuntimeException(e);
         }
         return "";
