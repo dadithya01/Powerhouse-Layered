@@ -16,7 +16,7 @@ public class TrainerDTO {
     private int age;
     private String specialization;
     private String certification;
-    private String  hire_date;
+    private String hire_date;
     private String bio;
     private Double rating;
 

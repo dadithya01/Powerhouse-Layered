@@ -9,19 +9,19 @@ public class DBConnection {
 
     private Connection connection;
 
-    private DBConnection()throws SQLException,ClassNotFoundException{
+    private DBConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/powerhouse", "adithya", "2000");
     }
 
-    public static DBConnection getInstance() throws SQLException,ClassNotFoundException{
-        if (dBConnection==null){
+    public static DBConnection getInstance() throws SQLException, ClassNotFoundException {
+        if (dBConnection == null) {
             dBConnection = new DBConnection();
         }
         return dBConnection;
     }
 
-    public Connection getConnection(){
+    public Connection getConnection() {
         return connection;
     }
 

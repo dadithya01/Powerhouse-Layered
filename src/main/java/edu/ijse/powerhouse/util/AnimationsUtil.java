@@ -12,12 +12,10 @@ public class AnimationsUtil {
     public static void AddFancyHoverAnimation(
             Button button,
             String backgroundColor,
-            String glowHexColor
-    ) {
+            String glowHexColor) {
         String baseStyle = String.format(
                 "-fx-background-color: %s; -fx-text-fill: white; -fx-background-radius: 50;",
-                backgroundColor
-        );
+                backgroundColor);
 
         button.setStyle(baseStyle);
 
@@ -54,8 +52,7 @@ public class AnimationsUtil {
         for (int i = 0; i < message.length(); i++) {
             final int index = i;
             KeyFrame keyFrame = new KeyFrame(delay.multiply(i),
-                    e -> label.setText(label.getText() + message.charAt(index))
-            );
+                    e -> label.setText(label.getText() + message.charAt(index)));
             timeline.getKeyFrames().add(keyFrame);
         }
         timeline.play();

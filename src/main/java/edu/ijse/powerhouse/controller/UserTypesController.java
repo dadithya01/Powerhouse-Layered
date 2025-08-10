@@ -2,7 +2,6 @@ package edu.ijse.powerhouse.controller;
 
 import edu.ijse.powerhouse.bo.BOFactory;
 import edu.ijse.powerhouse.bo.custom.UserTypeBO;
-import edu.ijse.powerhouse.dao.custom.impl.UserTypeDAOImpl;
 import edu.ijse.powerhouse.dto.UserTypeDTO;
 import edu.ijse.powerhouse.view.tdm.UserTypeTM;
 import edu.ijse.powerhouse.util.AnimationsUtil;
@@ -31,7 +30,6 @@ public class UserTypesController implements Initializable {
     public Button btnClear;
 
     UserTypeBO userTypeBO = (UserTypeBO) BOFactory.getInstance().getBO(BOFactory.BOType.USERTYPE);
-    UserTypeDAOImpl userTypeDAOImpl = new UserTypeDAOImpl();
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tblUserTypes.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("user_Type_Id"));
@@ -47,20 +45,18 @@ public class UserTypesController implements Initializable {
             loadNextId();
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Something went wrong : "+ e.getMessage());
+            showErrorAlert("Something went wrong : " + e.getMessage());
         }
     }
 
     public void loadTableData() throws SQLException, ClassNotFoundException {
         tblUserTypes.getItems().clear();
         ArrayList<UserTypeDTO> allUserTypes = userTypeBO.getAllUserTypes();
-        for (UserTypeDTO userTypeDTO: allUserTypes){
+        for (UserTypeDTO userTypeDTO : allUserTypes) {
             tblUserTypes.getItems().add(
                     new UserTypeTM(
                             userTypeDTO.getUser_Type_Id(),
-                            userTypeDTO.getUserTypeName()
-                    )
-            );
+                            userTypeDTO.getUserTypeName()));
         }
 
     }
@@ -78,7 +74,7 @@ public class UserTypesController implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Something went wrong : "+e.getMessage());
+            showErrorAlert("Something went wrong : " + e.getMessage());
         }
     }
 
@@ -111,7 +107,7 @@ public class UserTypesController implements Initializable {
     }
 
     private void showSuccessAlert(String message) {
-        Alert alert=new Alert(Alert.AlertType.CONFIRMATION, message);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message);
         alert.setTitle("Success!");
         alert.setHeaderText("Success!");
         alert.show();
@@ -122,17 +118,17 @@ public class UserTypesController implements Initializable {
         String userTypeId = lblUserTypeId.getText();
         String userTypeName = txtType.getText();
 
-        if (!isValidInput()) return;
+        if (!isValidInput())
+            return;
 
         try {
-            if (userTypeDAOImpl.isDuplicateUserType( userTypeName)) {
+            if (userTypeBO.isDuplicateUserType(userTypeName)) {
                 showWarnerAlert("User type already exists!");
                 return;
             }
             userTypeBO.saveUserType(new UserTypeDTO(
                     userTypeId,
-                    userTypeName
-            ));
+                    userTypeName));
             showSuccessAlert("User type saved successfully!");
             resetPage();
         } catch (Exception e) {
@@ -143,25 +139,24 @@ public class UserTypesController implements Initializable {
 
     public void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 
-        if (!isValidInput()) return;
+        if (!isValidInput())
+            return;
 
         String userTypeId = lblUserTypeId.getText();
         String userTypeName = txtType.getText();
 
-
         try {
-            if (userTypeDAOImpl.isDuplicateUserTypeForUpdate(userTypeId, userTypeName)) {
+            if (userTypeBO.isDuplicateUserTypeForUpdate(userTypeId, userTypeName)) {
                 showWarnerAlert("User type already exists!");
                 return;
             }
             userTypeBO.updateUserType(new UserTypeDTO(
                     userTypeId,
-                    userTypeName
-            ));
+                    userTypeName));
             showSuccessAlert("User type updated successfully!");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            showSuccessAlert("Fail to update User type : "+e.getMessage());
+            showSuccessAlert("Fail to update User type : " + e.getMessage());
         }
     }
 
@@ -174,22 +169,21 @@ public class UserTypesController implements Initializable {
                 Alert.AlertType.CONFIRMATION,
                 "Are You Sure ? ",
                 ButtonType.YES,
-                ButtonType.NO
-        );
+                ButtonType.NO);
         Optional<ButtonType> response = alert.showAndWait();
 
-        if(response.isPresent() && response.get() == ButtonType.YES){
+        if (response.isPresent() && response.get() == ButtonType.YES) {
             String userTypeId = lblUserTypeId.getText();
             try {
-                if (!existUserType(userTypeId)){
-                    showWarnerAlert("User type with ID : " + userTypeId +" does not exist.");
+                if (!existUserType(userTypeId)) {
+                    showWarnerAlert("User type with ID : " + userTypeId + " does not exist.");
                 }
                 userTypeBO.deleteUserType(userTypeId);
                 showSuccessAlert("User type deleted successfully!");
                 resetPage();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                showErrorAlert("Fail to delete User type : "+e.getMessage());
+                showErrorAlert("Fail to delete User type : " + e.getMessage());
             }
         }
     }
@@ -202,9 +196,9 @@ public class UserTypesController implements Initializable {
         try {
             String newId = userTypeBO.generateNewUserTypeId();
             lblUserTypeId.setText(newId);
-        } catch (SQLException| ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            showErrorAlert("Failed to generate new User Type ID : " +e.getMessage());
+            showErrorAlert("Failed to generate new User Type ID : " + e.getMessage());
             throw new RuntimeException(e);
         }
         return "";

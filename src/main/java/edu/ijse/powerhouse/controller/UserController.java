@@ -2,7 +2,6 @@ package edu.ijse.powerhouse.controller;
 
 import edu.ijse.powerhouse.bo.BOFactory;
 import edu.ijse.powerhouse.bo.custom.UserBO;
-import edu.ijse.powerhouse.dao.custom.impl.UserDAOImpl;
 import edu.ijse.powerhouse.dto.UserDTO;
 import edu.ijse.powerhouse.view.tdm.UserTM;
 import edu.ijse.powerhouse.util.AnimationsUtil;
@@ -27,7 +26,7 @@ public class UserController implements Initializable {
     public TextField txtPassword;
     public TextField txtUserTypeId;
     public TextField txtRegistrationDate;
-    public ComboBox <String> cmbStatus;
+    public ComboBox<String> cmbStatus;
     public Label lblMain;
     public TableView<UserTM> tblUsers;
     public Button btnSave;
@@ -36,7 +35,6 @@ public class UserController implements Initializable {
     public Button btnClear;
 
     UserBO userBO = (UserBO) BOFactory.getInstance().getBO(BOFactory.BOType.USER);
-    UserDAOImpl userDAOImpl = new UserDAOImpl();
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tblUsers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("userId"));
@@ -61,28 +59,26 @@ public class UserController implements Initializable {
             loadNextId();
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Something went wrong : "+e.getMessage());
+            showErrorAlert("Something went wrong : " + e.getMessage());
         }
     }
 
     public void loadTableData() throws SQLException, ClassNotFoundException {
         tblUsers.getItems().clear();
-            ArrayList<UserDTO> allUsers=userBO.getAllUsers();
-            for (UserDTO userDTO : allUsers){
-                tblUsers.getItems().add(
-                        new UserTM(
-                                userDTO.getUserId(),
-                                userDTO.getName(),
-                                userDTO.getPhone(),
-                                userDTO.getEmail(),
-                                userDTO.getUserName(),
-                                userDTO.getPassword(),
-                                userDTO.getUserTypeId(),
-                                userDTO.getRegistrationDate(),
-                                userDTO.getStatus()
-                        )
-                );
-            }
+        ArrayList<UserDTO> allUsers = userBO.getAllUsers();
+        for (UserDTO userDTO : allUsers) {
+            tblUsers.getItems().add(
+                    new UserTM(
+                            userDTO.getUserId(),
+                            userDTO.getName(),
+                            userDTO.getPhone(),
+                            userDTO.getEmail(),
+                            userDTO.getUserName(),
+                            userDTO.getPassword(),
+                            userDTO.getUserTypeId(),
+                            userDTO.getRegistrationDate(),
+                            userDTO.getStatus()));
+        }
     }
 
     private void resetPage() {
@@ -103,10 +99,9 @@ public class UserController implements Initializable {
             txtRegistrationDate.setText(null);
             cmbStatus.setValue(null);
 
-
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Something went wrong : "+e.getMessage());
+            showErrorAlert("Something went wrong : " + e.getMessage());
         }
     }
 
@@ -158,7 +153,7 @@ public class UserController implements Initializable {
     }
 
     private void showSuccessAlert(String message) {
-        Alert alert=new Alert(Alert.AlertType.CONFIRMATION, message);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message);
         alert.setTitle("Success!");
         alert.setHeaderText("Success!");
         alert.show();
@@ -176,17 +171,17 @@ public class UserController implements Initializable {
         String registrationDate = txtRegistrationDate.getText();
         String status = cmbStatus.getValue();
 
-        if (!isValidInput()) return;
+        if (!isValidInput())
+            return;
 
         try {
-            if (userDAOImpl.isDuplicateUser(email, userName, phone)) {
+            if (userBO.isDuplicateUser(email, userName, phone)) {
                 showWarnerAlert("Duplicate user detected (Email, Username or Phone already exists).");
                 return;
             }
             userBO.saveUser(new UserDTO(
                     userId, name, phone, email, userName,
-                    password, userTypeId, registrationDate, status
-            ));
+                    password, userTypeId, registrationDate, status));
             showSuccessAlert("User saved successfully!");
             resetPage();
 
@@ -198,7 +193,8 @@ public class UserController implements Initializable {
 
     public void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException {
 
-        if (!isValidInput()) return;
+        if (!isValidInput())
+            return;
 
         String userId = lblUserId.getText();
         String userName = txtName.getText();
@@ -211,15 +207,14 @@ public class UserController implements Initializable {
         String userStatus = cmbStatus.getValue();
 
         try {
-            if (userDAOImpl.isDuplicateUserForUpdate(userId, userEmail, userName, userContact)) {
+            if (userBO.isDuplicateUserForUpdate(userId, userEmail, userName, userContact)) {
                 showWarnerAlert("Duplicate email, username, or phone number found for another user.");
                 return;
             }
 
             userBO.updateUser(new UserDTO(
                     userId, userName, userContact, userEmail, userUserName,
-                    userPassword, userTypeId, userRegistrationDate, userStatus
-            ));
+                    userPassword, userTypeId, userRegistrationDate, userStatus));
             showSuccessAlert("User updated successfully!");
             resetPage();
 
@@ -238,20 +233,19 @@ public class UserController implements Initializable {
                 Alert.AlertType.CONFIRMATION,
                 "Are You Sure ? ",
                 ButtonType.YES,
-                ButtonType.NO
-        );
+                ButtonType.NO);
         Optional<ButtonType> response = alert.showAndWait();
 
-        if(response.isPresent() && response.get() == ButtonType.YES){
+        if (response.isPresent() && response.get() == ButtonType.YES) {
             String userId = tblUsers.getSelectionModel().getSelectedItem().getUserId();
             try {
-                if (!existUser(userId)){
+                if (!existUser(userId)) {
                     showWarnerAlert("User with ID : " + userId + " does not exist.");
                 }
                 userBO.deleteUser(userId);
                 showSuccessAlert("User deleted successfully");
                 resetPage();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 showErrorAlert("Failed to delete User : " + e.getMessage());
             }

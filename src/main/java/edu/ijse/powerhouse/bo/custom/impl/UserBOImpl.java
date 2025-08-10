@@ -26,8 +26,7 @@ public class UserBOImpl implements UserBO {
                     user.getPassword(),
                     user.getUserTypeId(),
                     user.getRegistrationDate(),
-                    user.getStatus()
-            ));
+                    user.getStatus()));
         }
         return userDTOS;
     }
@@ -43,8 +42,7 @@ public class UserBOImpl implements UserBO {
                 userListDto.getPassword(),
                 userListDto.getUserTypeId(),
                 userListDto.getRegistrationDate(),
-                userListDto.getStatus()
-        ));
+                userListDto.getStatus()));
     }
 
     @Override
@@ -58,8 +56,7 @@ public class UserBOImpl implements UserBO {
                 userListDto.getPassword(),
                 userListDto.getUserTypeId(),
                 userListDto.getRegistrationDate(),
-                userListDto.getStatus()
-        ));
+                userListDto.getStatus()));
     }
 
     @Override
@@ -75,5 +72,17 @@ public class UserBOImpl implements UserBO {
     @Override
     public String generateNewUserId() throws SQLException, ClassNotFoundException {
         return userDAO.generateNewId();
+    }
+
+    @Override
+    public boolean isDuplicateUserForUpdate(String userId, String email, String userName, String phone)
+            throws SQLException, ClassNotFoundException {
+        return userDAO.isDuplicateUserForUpdate(userId, email, userName, phone);
+    }
+
+    @Override
+    public boolean isDuplicateUser(String email, String userName, String phone)
+            throws SQLException, ClassNotFoundException {
+        return userDAO.isDuplicateUser(email, userName, phone);
     }
 }

@@ -1,6 +1,7 @@
 package edu.ijse.powerhouse.controller;
 
 import edu.ijse.powerhouse.util.AnimationsUtil;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -97,30 +98,35 @@ public class DashBoardOAController implements Initializable {
         AnchorPane load = FXMLLoader.load(getClass().getResource("/view/Attendance.fxml"));
         sidePane.getChildren().add(load);
     }
+
     @FXML
     void btnDietPlansOnAction(ActionEvent event) throws IOException {
         sidePane.getChildren().clear();
         AnchorPane load = FXMLLoader.load(getClass().getResource("/view/DietPlan.fxml"));
         sidePane.getChildren().add(load);
     }
+
     @FXML
     void btnMealListOnAction(ActionEvent event) throws IOException {
         sidePane.getChildren().clear();
         AnchorPane load = FXMLLoader.load(getClass().getResource("/view/MealList.fxml"));
         sidePane.getChildren().add(load);
     }
+
     @FXML
     void btnPaymentRecordManageOnAction(ActionEvent event) throws IOException {
-//        sidePane.getChildren().clear();
-//        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/Settings.fxml"));
-//        sidePane.getChildren().add(load);
+        // sidePane.getChildren().clear();
+        // AnchorPane load =
+        // FXMLLoader.load(getClass().getResource("/view/Settings.fxml"));
+        // sidePane.getChildren().add(load);
     }
 
     @FXML
     void btnPaymentPlan(ActionEvent event) throws IOException {
-//        sidePane.getChildren().clear();
-//        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/Settings.fxml"));
-//        sidePane.getChildren().add(load);
+        // sidePane.getChildren().clear();
+        // AnchorPane load =
+        // FXMLLoader.load(getClass().getResource("/view/Settings.fxml"));
+        // sidePane.getChildren().add(load);
     }
 
     @FXML

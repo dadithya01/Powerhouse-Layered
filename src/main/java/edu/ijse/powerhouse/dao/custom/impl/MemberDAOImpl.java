@@ -1,6 +1,5 @@
 package edu.ijse.powerhouse.dao.custom.impl;
 
-
 import edu.ijse.powerhouse.dao.custom.MemberDAO;
 import edu.ijse.powerhouse.entity.Member;
 import edu.ijse.powerhouse.util.SQLUtil;
@@ -15,7 +14,7 @@ public class MemberDAOImpl implements MemberDAO {
         ResultSet rst = SQLUtil.executeQuery("SELECT * FROM Member");
         ArrayList<Member> members = new ArrayList<>();
         while (rst.next()) {
-            Member member = new Member(
+            members.add(new Member(
                     rst.getString("member_id"),
                     rst.getString("name"),
                     rst.getDouble("weight"),
@@ -27,16 +26,15 @@ public class MemberDAOImpl implements MemberDAO {
                     rst.getString("fitness_goals"),
                     rst.getString("register_date"),
                     rst.getString("membership_status"),
-                    rst.getString("added_by")
-            );
-            members.add(member);
+                    rst.getString("added_by")));
         }
         return members;
     }
 
     @Override
     public boolean save(Member entity) throws SQLException, ClassNotFoundException {
-        return SQLUtil.executeUpdate("INSERT INTO Member (member_id, name, weight, height, age, contact, emergency_contact, medical_conditions, fitness_goals, register_date, membership_status, added_by) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        return SQLUtil.executeUpdate(
+                "INSERT INTO Member (member_id, name, weight, height, age, contact, emergency_contact, medical_conditions, fitness_goals, register_date, membership_status, added_by) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 entity.getMember_id(),
                 entity.getName(),
                 entity.getWeight(),
@@ -48,13 +46,13 @@ public class MemberDAOImpl implements MemberDAO {
                 entity.getFitness_goals(),
                 entity.getRegister_date(),
                 entity.getMembership_status(),
-                entity.getAdded_by()
-        );
+                entity.getAdded_by());
     }
 
     @Override
     public boolean update(Member entity) throws SQLException, ClassNotFoundException {
-        return SQLUtil.executeUpdate("UPDATE Member SET name = ?, weight = ?, height = ?, age = ?, contact = ?, emergency_contact = ?, medical_conditions = ?, fitness_goals = ?, register_date = ?, membership_status = ?, added_by = ? WHERE member_id = ?",
+        return SQLUtil.executeUpdate(
+                "UPDATE Member SET name = ?, weight = ?, height = ?, age = ?, contact = ?, emergency_contact = ?, medical_conditions = ?, fitness_goals = ?, register_date = ?, membership_status = ?, added_by = ? WHERE member_id = ?",
                 entity.getName(),
                 entity.getWeight(),
                 entity.getHeight(),
@@ -66,14 +64,12 @@ public class MemberDAOImpl implements MemberDAO {
                 entity.getRegister_date(),
                 entity.getMembership_status(),
                 entity.getAdded_by(),
-                entity.getMember_id()
-        );
+                entity.getMember_id());
     }
 
     @Override
     public boolean exist(String memberId) throws SQLException, ClassNotFoundException {
-        ResultSet rst= SQLUtil.executeQuery("SELECT member_id FROM Member WHERE member_id = ?", memberId);
-        return rst.next();
+        return SQLUtil.executeQuery("SELECT member_id FROM Member WHERE member_id = ?", memberId).next();
     }
 
     @Override
@@ -86,27 +82,26 @@ public class MemberDAOImpl implements MemberDAO {
         ResultSet resultSet = SQLUtil.executeQuery("SELECT member_id FROM Member ORDER BY member_id DESC LIMIT 1");
         char tableCharacter = 'M';
 
-        if(resultSet.next()){
+        if (resultSet.next()) {
             String lastId = resultSet.getString(1);
             String lastIdNumberString = lastId.substring(1);
             int lastIdNumber = Integer.parseInt(lastIdNumberString);
             int nextIdNumber = lastIdNumber + 1;
-            String nextIdString = String.format(tableCharacter + "%03d" , nextIdNumber);
+            String nextIdString = String.format(tableCharacter + "%03d", nextIdNumber);
 
             return nextIdString;
         }
-        return tableCharacter+ "001";
+        return tableCharacter + "001";
     }
 
     @Override
     public boolean isDuplicateMember(String contact) throws Exception {
-        ResultSet rst = SQLUtil.executeQuery("SELECT 1 FROM Member WHERE contact = ?", contact);
-        return rst.next();
+        return SQLUtil.executeQuery("SELECT 1 FROM Member WHERE contact = ?", contact).next();
     }
 
     @Override
     public boolean isDuplicateMemberForUpdate(String memberId, String contact) throws Exception {
-        ResultSet rst = SQLUtil.executeQuery("SELECT 1 FROM Member WHERE (contact = ?) AND member_id != ?", memberId, contact);
-        return rst.next();
+        return SQLUtil.executeQuery("SELECT 1 FROM Member WHERE (contact = ?) AND member_id != ?", memberId, contact)
+                .next();
     }
 }

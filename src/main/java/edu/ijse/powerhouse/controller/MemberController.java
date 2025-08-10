@@ -2,7 +2,6 @@ package edu.ijse.powerhouse.controller;
 
 import edu.ijse.powerhouse.bo.BOFactory;
 import edu.ijse.powerhouse.bo.custom.MemberBO;
-import edu.ijse.powerhouse.dao.custom.impl.MemberDAOImpl;
 import edu.ijse.powerhouse.dto.MemberDTO;
 import edu.ijse.powerhouse.view.tdm.MemberTM;
 import edu.ijse.powerhouse.util.AnimationsUtil;
@@ -40,8 +39,7 @@ public class MemberController implements Initializable {
     public Button btnDelete;
     public Button btnClear;
 
-    MemberBO memberBO= (MemberBO) BOFactory.getInstance().getBO(BOFactory.BOType.MEMBER);
-    MemberDAOImpl memberDAOImpl= new MemberDAOImpl();
+    MemberBO memberBO = (MemberBO) BOFactory.getInstance().getBO(BOFactory.BOType.MEMBER);
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tblMember.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("member_id"));
@@ -68,14 +66,14 @@ public class MemberController implements Initializable {
             loadNextId();
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Something went wrong : "+e.getMessage());
+            showErrorAlert("Something went wrong : " + e.getMessage());
         }
     }
 
     public void loadTableData() throws SQLException, ClassNotFoundException {
         tblMember.getItems().clear();
         ArrayList<MemberDTO> allMembers = memberBO.getAllMembers();
-        for (MemberDTO memberDTO: allMembers){
+        for (MemberDTO memberDTO : allMembers) {
             tblMember.getItems().add(
                     new MemberTM(
                             memberDTO.getMember_id(),
@@ -89,9 +87,7 @@ public class MemberController implements Initializable {
                             memberDTO.getFitness_goals(),
                             memberDTO.getRegister_date(),
                             memberDTO.getMembership_status(),
-                            memberDTO.getAdded_by()
-                    )
-            );
+                            memberDTO.getAdded_by()));
         }
     }
 
@@ -118,7 +114,7 @@ public class MemberController implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Something went wrong : "+e.getMessage());
+            showErrorAlert("Something went wrong : " + e.getMessage());
         }
     }
 
@@ -172,7 +168,7 @@ public class MemberController implements Initializable {
     }
 
     private void showSuccessAlert(String message) {
-        Alert alert=new Alert(Alert.AlertType.CONFIRMATION, message);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message);
         alert.setTitle("Success!");
         alert.setHeaderText("Success!");
         alert.show();
@@ -193,10 +189,11 @@ public class MemberController implements Initializable {
         String membershipStatus = txtMembershipStatus.getText();
         String addedBy = txtAddedBy.getText();
 
-        if (!isValidInput()) return;
+        if (!isValidInput())
+            return;
 
         try {
-            if (memberDAOImpl.isDuplicateMember( contact)){
+            if (memberBO.isDuplicateMember(contact)) {
                 showWarnerAlert("This contact number is already registered.");
                 return;
             }
@@ -212,8 +209,7 @@ public class MemberController implements Initializable {
                     fitnessGoals,
                     registrationDate,
                     membershipStatus,
-                    addedBy
-            ));
+                    addedBy));
             showSuccessAlert("Member saved successfully!");
             resetPage();
         } catch (Exception e) {
@@ -237,10 +233,11 @@ public class MemberController implements Initializable {
         String membershipStatus = txtMembershipStatus.getText();
         String addedBy = txtAddedBy.getText();
 
-        if (!isValidInput()) return;
+        if (!isValidInput())
+            return;
 
         try {
-            if (memberDAOImpl.isDuplicateMemberForUpdate(memberId, contact)) {
+            if (memberBO.isDuplicateMemberForUpdate(memberId, contact)) {
                 showWarnerAlert("This contact number is already registered for another member.");
                 return;
             }
@@ -256,11 +253,10 @@ public class MemberController implements Initializable {
                     fitnessGoals,
                     registrationDate,
                     membershipStatus,
-                    addedBy
-            ));
+                    addedBy));
             showSuccessAlert("Member updated successfully!");
             resetPage();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             showErrorAlert("Failed to update member : " + e.getMessage());
         }
@@ -275,11 +271,10 @@ public class MemberController implements Initializable {
                 Alert.AlertType.CONFIRMATION,
                 "Are You Sure ? ",
                 ButtonType.YES,
-                ButtonType.NO
-        );
+                ButtonType.NO);
         Optional<ButtonType> response = alert.showAndWait();
 
-        if(response.isPresent() && response.get() == ButtonType.YES){
+        if (response.isPresent() && response.get() == ButtonType.YES) {
             String memberId = lblMemberId.getText();
             try {
                 if (!existMember(memberId)) {
@@ -289,7 +284,7 @@ public class MemberController implements Initializable {
                 memberBO.deleteMember(memberId);
                 showSuccessAlert("Member deleted successfully!");
                 resetPage();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 showErrorAlert("Failed to delete member : " + e.getMessage());
             }

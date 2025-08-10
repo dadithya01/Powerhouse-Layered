@@ -12,15 +12,15 @@ import java.util.ArrayList;
 public class UserTypeBOImpl implements UserTypeBO {
 
     UserTypeDAO userTypeDAO = (UserTypeDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.USERTYPE);
+
     @Override
     public ArrayList<UserTypeDTO> getAllUserTypes() throws SQLException, ClassNotFoundException {
         ArrayList<UserType> entity = userTypeDAO.getAll();
         ArrayList<UserTypeDTO> userTypeDTOS = new ArrayList<>();
-        for (UserType userType : entity){
+        for (UserType userType : entity) {
             userTypeDTOS.add(new UserTypeDTO(
                     userType.getUser_Type_Id(),
-                    userType.getUserTypeName()
-            ));
+                    userType.getUserTypeName()));
         }
         return userTypeDTOS;
     }
@@ -29,16 +29,14 @@ public class UserTypeBOImpl implements UserTypeBO {
     public boolean saveUserType(UserTypeDTO userTypeDTO) throws SQLException, ClassNotFoundException {
         return userTypeDAO.save(new UserType(
                 userTypeDTO.getUser_Type_Id(),
-                userTypeDTO.getUserTypeName()
-        ));
+                userTypeDTO.getUserTypeName()));
     }
 
     @Override
     public boolean updateUserType(UserTypeDTO userTypeDTO) throws SQLException, ClassNotFoundException {
         return userTypeDAO.update(new UserType(
                 userTypeDTO.getUser_Type_Id(),
-                userTypeDTO.getUserTypeName()
-        ));
+                userTypeDTO.getUserTypeName()));
     }
 
     @Override
@@ -54,5 +52,16 @@ public class UserTypeBOImpl implements UserTypeBO {
     @Override
     public String generateNewUserTypeId() throws SQLException, ClassNotFoundException {
         return userTypeDAO.generateNewId();
+    }
+
+    @Override
+    public boolean isDuplicateUserTypeForUpdate(String userTypeId, String userTypeName)
+            throws SQLException, ClassNotFoundException {
+        return userTypeDAO.isDuplicateUserTypeForUpdate(userTypeId, userTypeName);
+    }
+
+    @Override
+    public boolean isDuplicateUserType(String userTypeName) throws SQLException, ClassNotFoundException {
+        return userTypeDAO.isDuplicateUserType(userTypeName);
     }
 }

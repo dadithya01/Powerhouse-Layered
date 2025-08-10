@@ -13,12 +13,10 @@ public class UserTypeDAOImpl implements UserTypeDAO {
     public ArrayList<UserType> getAll() throws SQLException, ClassNotFoundException {
         ResultSet rst = SQLUtil.executeQuery("SELECT * FROM User_Types");
         ArrayList<UserType> userTypes = new ArrayList<>();
-        while (rst.next()){
-            UserType userType= new UserType(
-                    rst.getString("user_Type_Id"),
-                    rst.getString("type")
-            );
-            userTypes.add(userType);
+        while (rst.next()) {
+            userTypes.add(new UserType(
+                    rst.getString("user_type_id"),
+                    rst.getString("type")));
         }
         return userTypes;
     }
@@ -50,24 +48,27 @@ public class UserTypeDAOImpl implements UserTypeDAO {
 
     @Override
     public String generateNewId() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = SQLUtil.executeQuery("SELECT user_type_id FROM User_Types ORDER BY user_type_id DESC LIMIT 1");
+        ResultSet resultSet = SQLUtil
+                .executeQuery("SELECT user_type_id FROM User_Types ORDER BY user_type_id DESC LIMIT 1");
         String tableCharacter = "UT";
 
-        if(resultSet.next()){
+        if (resultSet.next()) {
             String lastId = resultSet.getString(1);
             String lastIdNumberString = lastId.substring(2);
             int lastIdNumber = Integer.parseInt(lastIdNumberString);
             int nextIdNumber = lastIdNumber + 1;
-            String nextIdString = String.format(tableCharacter + "%03d" , nextIdNumber);
+            String nextIdString = String.format(tableCharacter + "%03d", nextIdNumber);
 
             return nextIdString;
         }
-        return tableCharacter+ "001";
+        return tableCharacter + "001";
     }
 
     @Override
-    public boolean isDuplicateUserTypeForUpdate(String userTypeId, String userTypeName) throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQLUtil.executeQuery("SELECT 1 FROM User_Types WHERE type = ? AND user_type_id != ?", userTypeName, userTypeId);
+    public boolean isDuplicateUserTypeForUpdate(String userTypeId, String userTypeName)
+            throws SQLException, ClassNotFoundException {
+        ResultSet rst = SQLUtil.executeQuery("SELECT 1 FROM User_Types WHERE type = ? AND user_type_id != ?",
+                userTypeName, userTypeId);
         return rst.next();
     }
 
