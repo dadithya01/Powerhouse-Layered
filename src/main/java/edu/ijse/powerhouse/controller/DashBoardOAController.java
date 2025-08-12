@@ -67,14 +67,14 @@ public class DashBoardOAController implements Initializable {
     @FXML
     void btnEmployeeListOnAction() throws IOException {
         sidePane.getChildren().clear();
-        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/EmployeeList.fxml"));
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/Employee.fxml"));
         sidePane.getChildren().add(load);
     }
 
     @FXML
     void btnTrainerListOnAction() throws IOException {
         sidePane.getChildren().clear();
-        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/TrainerList.fxml"));
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/Trainers.fxml"));
         sidePane.getChildren().add(load);
     }
 

@@ -73,7 +73,7 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 
         if (resultSet.next()) {
             String lastId = resultSet.getString(1);
-            String lastIdNumberString = lastId.substring(1);
+            String lastIdNumberString = lastId.substring(2);
             int lastIdNumber = Integer.parseInt(lastIdNumberString);
             int nextIdNumber = lastIdNumber + 1;
             String nextIdString = String.format(tableCharacter + "%03d", nextIdNumber);

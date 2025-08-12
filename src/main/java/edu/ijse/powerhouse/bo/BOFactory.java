@@ -18,7 +18,8 @@ public class BOFactory {
         MEMBER,
         TRAINER,
         EMPLOYEE,
-        ATTENDANCE
+        ATTENDANCE,
+        ASSIGNWORKOUTPLANS
     }
 
     public SuperBO getBO(BOType type) {
@@ -35,6 +36,8 @@ public class BOFactory {
                 return new EmployeeBOImpl();
             case ATTENDANCE:
                 return new AttendanceBOImpl();
+            case ASSIGNWORKOUTPLANS:
+                return new AssignWorkoutPlanBOImpl();
             default:
                 return null;
         }
