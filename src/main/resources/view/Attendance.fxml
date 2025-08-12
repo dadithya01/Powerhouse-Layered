@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="ancEmployeeList" prefHeight="900.0" prefWidth="1325.0" style="-fx-background-color: fefefe;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.powerhouse.controller.AttendanceController">
+    <children>
+        <VBox alignment="TOP_CENTER" layoutX="80.0" layoutY="42.0" prefHeight="900.0" prefWidth="1325.0" spacing="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label fx:id="lblMain" text="Attendance Management">
+                    <font>
+                        <Font name="Serif Bold" size="48.0" />
+                    </font>
+                </Label>
+                <HBox prefHeight="231.0" prefWidth="1325.0">
+                    <children>
+                        <VBox alignment="TOP_RIGHT" prefHeight="378.0" prefWidth="395.0" spacing="15.0">
+                            <children>
+                                <Label text="Attendance Id :">
+                                    <font>
+                                        <Font name="Serif Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Member Id :">
+                                    <font>
+                                        <Font name="Serif Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Check In :">
+                                    <font>
+                                        <Font name="Serif Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Check Out :">
+                                    <font>
+                                        <Font name="Serif Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Recorded By :">
+                                    <font>
+                                        <Font name="Serif Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets right="10.0" top="10.0" />
+                            </padding>
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                        </VBox>
+                        <VBox prefHeight="455.0" prefWidth="552.0" spacing="9.0">
+                            <children>
+                                <Label fx:id="lblAttendanceId" prefHeight="42.0" prefWidth="469.0" text="1">
+                                    <padding>
+                                        <Insets top="10.0" />
+                                    </padding>
+                                    <font>
+                                        <Font name="Serif Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="txtMemberId" style="-fx-background-radius: 10;">
+                                    <padding>
+                                        <Insets top="10.0" />
+                                    </padding>
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font></TextField>
+                                <TextField fx:id="txtCheckIn" promptText="0000-00-00 00:00:00" style="-fx-background-radius: 10;">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets top="10.0" />
+                                    </padding>
+                                </TextField>
+                                <TextField fx:id="txtCheckOut" promptText="00:00:00" style="-fx-background-radius: 10;">
+                                    <padding>
+                                        <Insets top="10.0" />
+                                    </padding>
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </TextField>
+                                <TextField fx:id="txtRecordedBy" style="-fx-background-radius: 10;">
+                                    <padding>
+                                        <Insets top="10.0" />
+                                    </padding>
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font></TextField>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="30.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                </HBox>
+                <HBox alignment="TOP_CENTER" prefHeight="11.0" prefWidth="804.0" spacing="50.0">
+                    <children>
+                        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnAction" style="-fx-background-color: #27ae60; -fx-background-radius: 7;" text="Save" textFill="WHITE">
+                            <font>
+                                <Font name="Serif Bold" size="24.0" />
+                            </font></Button>
+                        <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" style="-fx-background-color: #2980b9; -fx-background-radius: 7;" text="Update" textFill="WHITE">
+                            <font>
+                                <Font name="Serif Bold" size="24.0" />
+                            </font></Button>
+                        <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" style="-fx-background-color: #e74c3c; -fx-background-radius: 7;" text="Delete" textFill="WHITE">
+                            <font>
+                                <Font name="Serif Bold" size="24.0" />
+                            </font></Button>
+                        <Button fx:id="btnClear" mnemonicParsing="false" onAction="#btnClearOnAction" style="-fx-background-color: #130f40; -fx-background-radius: 7;" text="Clear" textFill="WHITE">
+                            <font>
+                                <Font name="Serif Bold" size="24.0" />
+                            </font>
+                        </Button>
+                    </children></HBox>
+                <ScrollPane prefHeight="465.0" prefWidth="1325.0">
+                    <content>
+                        <TableView fx:id="tblAttendance" onMouseClicked="#getData" prefHeight="458.0" prefWidth="1325.0">
+                            <columns>
+                                <TableColumn fx:id="colAId" prefWidth="275.0" text="Attendance Id" />
+                                <TableColumn fx:id="colMId" prefWidth="275.0" text="Member Id" />
+                                <TableColumn fx:id="colCheckIn" prefWidth="267.0" text="Check In" />
+                                <TableColumn fx:id="colCheckOut" prefWidth="267.0" text="Check Out" />
+                                <TableColumn fx:id="colRecordedBy" prefWidth="222.0" text="Recorded By" />
+                            </columns>
+                        </TableView>
+                    </content>
+                </ScrollPane>
+            </children>
+            <padding>
+                <Insets top="30.0" />
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>

@@ -17,7 +17,8 @@ public class DAOFactory {
         USERTYPE,
         MEMBER,
         TRAINER,
-        EMPLOYEE
+        EMPLOYEE,
+        Attendance
     }
 
     public SuperDAO getDAO(DAOType type) {
@@ -32,6 +33,8 @@ public class DAOFactory {
                 return new TrainerDAOImpl();
             case EMPLOYEE:
                 return new EmployeeDAOImpl();
+            case Attendance:
+                return new AttendanceDAOImpl();
             default:
                 return null;
         }
