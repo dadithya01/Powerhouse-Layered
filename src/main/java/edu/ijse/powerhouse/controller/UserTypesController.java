@@ -1,5 +1,6 @@
 package edu.ijse.powerhouse.controller;
 
+import edu.ijse.powerhouse.util.AlertsUtil;
 import edu.ijse.powerhouse.bo.BOFactory;
 import edu.ijse.powerhouse.bo.custom.UserTypeBO;
 import edu.ijse.powerhouse.dto.UserTypeDTO;
@@ -45,7 +46,7 @@ public class UserTypesController implements Initializable {
             loadNextId();
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Something went wrong : " + e.getMessage());
+            AlertsUtil.showErrorAlert("Something went wrong : " + e.getMessage());
         }
     }
 
@@ -74,43 +75,28 @@ public class UserTypesController implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Something went wrong : " + e.getMessage());
+            AlertsUtil.showErrorAlert("Something went wrong : " + e.getMessage());
         }
     }
 
     private boolean isValidInput() {
 
         if (txtType == null || txtType.getText().isBlank()) {
-            showWarnerAlert(" Type cant be empty!");
+            AlertsUtil.showWarnerAlert(" Type cant be empty!");
             return false;
         }
 
         if (!txtType.getText().matches("[A-Za-z ]+")) {
-            showWarnerAlert("User type must contain only letters and spaces!");
+            AlertsUtil.showWarnerAlert("User type must contain only letters and spaces!");
             return false;
         }
 
         if (txtType.getLength() > 30) {
-            showWarnerAlert("User type is too long!");
+            AlertsUtil.showWarnerAlert("User type is too long!");
             return false;
         }
 
         return true;
-    }
-
-    private void showWarnerAlert(String message) {
-        new Alert(Alert.AlertType.WARNING, message).show();
-    }
-
-    private void showErrorAlert(String message) {
-        new Alert(Alert.AlertType.ERROR, message).show();
-    }
-
-    private void showSuccessAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message);
-        alert.setTitle("Success!");
-        alert.setHeaderText("Success!");
-        alert.show();
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
@@ -123,17 +109,17 @@ public class UserTypesController implements Initializable {
 
         try {
             if (userTypeBO.isDuplicateUserType(userTypeName)) {
-                showWarnerAlert("User type already exists!");
+                AlertsUtil.showWarnerAlert("User type already exists!");
                 return;
             }
             userTypeBO.saveUserType(new UserTypeDTO(
                     userTypeId,
                     userTypeName));
-            showSuccessAlert("User type saved successfully!");
+            AlertsUtil.showSuccessAlert("User type saved successfully!");
             resetPage();
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Failed to save the User type : " + e.getMessage());
+            AlertsUtil.showErrorAlert("Failed to save the User type : " + e.getMessage());
         }
     }
 
@@ -147,16 +133,16 @@ public class UserTypesController implements Initializable {
 
         try {
             if (userTypeBO.isDuplicateUserTypeForUpdate(userTypeId, userTypeName)) {
-                showWarnerAlert("User type already exists!");
+                AlertsUtil.showWarnerAlert("User type already exists!");
                 return;
             }
             userTypeBO.updateUserType(new UserTypeDTO(
                     userTypeId,
                     userTypeName));
-            showSuccessAlert("User type updated successfully!");
+            AlertsUtil.showSuccessAlert("User type updated successfully!");
         } catch (Exception e) {
             e.printStackTrace();
-            showSuccessAlert("Fail to update User type : " + e.getMessage());
+            AlertsUtil.showErrorAlert("Fail to update User type : " + e.getMessage());
         }
     }
 
@@ -176,14 +162,14 @@ public class UserTypesController implements Initializable {
             String userTypeId = lblUserTypeId.getText();
             try {
                 if (!existUserType(userTypeId)) {
-                    showWarnerAlert("User type with ID : " + userTypeId + " does not exist.");
+                    AlertsUtil.showWarnerAlert("User type with ID : " + userTypeId + " does not exist.");
                 }
                 userTypeBO.deleteUserType(userTypeId);
-                showSuccessAlert("User type deleted successfully!");
+                AlertsUtil.showSuccessAlert("User type deleted successfully!");
                 resetPage();
             } catch (Exception e) {
                 e.printStackTrace();
-                showErrorAlert("Fail to delete User type : " + e.getMessage());
+                AlertsUtil.showErrorAlert("Fail to delete User type : " + e.getMessage());
             }
         }
     }
@@ -198,7 +184,7 @@ public class UserTypesController implements Initializable {
             lblUserTypeId.setText(newId);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            showErrorAlert("Failed to generate new User Type ID : " + e.getMessage());
+            AlertsUtil.showErrorAlert("Failed to generate new User Type ID : " + e.getMessage());
             throw new RuntimeException(e);
         }
         return "";
