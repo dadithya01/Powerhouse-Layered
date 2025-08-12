@@ -1,5 +1,6 @@
 package edu.ijse.powerhouse.controller;
 
+import edu.ijse.powerhouse.util.AlertsUtil;
 import edu.ijse.powerhouse.bo.BOFactory;
 import edu.ijse.powerhouse.bo.custom.MemberBO;
 import edu.ijse.powerhouse.dto.MemberDTO;
@@ -66,7 +67,7 @@ public class MemberController implements Initializable {
             loadNextId();
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Something went wrong : " + e.getMessage());
+            AlertsUtil.showErrorAlert("Something went wrong : " + e.getMessage());
         }
     }
 
@@ -114,64 +115,49 @@ public class MemberController implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Something went wrong : " + e.getMessage());
+            AlertsUtil.showErrorAlert("Something went wrong : " + e.getMessage());
         }
     }
 
     private boolean isValidInput() {
         if (txtName.getText().isBlank()) {
-            showWarnerAlert("Name is required.");
+            AlertsUtil.showWarnerAlert("Name is required.");
             return false;
         }
         if (!txtWeight.getText().matches("\\d+(\\.\\d+)?")) {
-            showWarnerAlert("Enter a valid weight (e.g., 70.5).");
+            AlertsUtil.showWarnerAlert("Enter a valid weight (e.g., 70.5).");
             return false;
         }
         if (!txtHeight.getText().matches("\\d+(\\.\\d+)?")) {
-            showWarnerAlert("Enter a valid height (e.g., 175.0).");
+            AlertsUtil.showWarnerAlert("Enter a valid height (e.g., 175.0).");
             return false;
         }
         if (!txtAge.getText().matches("\\d{1,3}")) {
-            showWarnerAlert("Enter a valid age (e.g., 25).");
+            AlertsUtil.showWarnerAlert("Enter a valid age (e.g., 25).");
             return false;
         }
         if (!txtPhone.getText().matches("\\d{10,15}")) {
-            showWarnerAlert("Enter a valid phone number (10-15 digits).");
+            AlertsUtil.showWarnerAlert("Enter a valid phone number (10-15 digits).");
             return false;
         }
         if (!txtEmergencyContact.getText().matches("\\d{10,15}")) {
-            showWarnerAlert("Enter a valid emergency contact number.");
+            AlertsUtil.showWarnerAlert("Enter a valid emergency contact number.");
             return false;
         }
         if (txtRegistrationDate.getText().isBlank()) {
-            showWarnerAlert("Registration date is required.");
+            AlertsUtil.showWarnerAlert("Registration date is required.");
             return false;
         }
         if (txtMembershipStatus.getText().isBlank()) {
-            showWarnerAlert("Membership status is required.");
+            AlertsUtil.showWarnerAlert("Membership status is required.");
             return false;
         }
         if (txtAddedBy.getText().isBlank()) {
-            showWarnerAlert("Added By field is required.");
+            AlertsUtil.showWarnerAlert("Added By field is required.");
             return false;
         }
 
         return true;
-    }
-
-    private void showWarnerAlert(String message) {
-        new Alert(Alert.AlertType.WARNING, message).show();
-    }
-
-    private void showErrorAlert(String message) {
-        new Alert(Alert.AlertType.ERROR, message).show();
-    }
-
-    private void showSuccessAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message);
-        alert.setTitle("Success!");
-        alert.setHeaderText("Success!");
-        alert.show();
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
@@ -194,7 +180,7 @@ public class MemberController implements Initializable {
 
         try {
             if (memberBO.isDuplicateMember(contact)) {
-                showWarnerAlert("This contact number is already registered.");
+                AlertsUtil.showWarnerAlert("This contact number is already registered.");
                 return;
             }
             memberBO.saveMember(new MemberDTO(
@@ -210,11 +196,11 @@ public class MemberController implements Initializable {
                     registrationDate,
                     membershipStatus,
                     addedBy));
-            showSuccessAlert("Member saved successfully!");
+            AlertsUtil.showSuccessAlert("Member saved successfully!");
             resetPage();
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Failed to save member : " + e.getMessage());
+            AlertsUtil.showErrorAlert("Failed to save member : " + e.getMessage());
         }
     }
 
@@ -238,7 +224,7 @@ public class MemberController implements Initializable {
 
         try {
             if (memberBO.isDuplicateMemberForUpdate(memberId, contact)) {
-                showWarnerAlert("This contact number is already registered for another member.");
+                AlertsUtil.showWarnerAlert("This contact number is already registered for another member.");
                 return;
             }
             memberBO.updateMember(new MemberDTO(
@@ -254,11 +240,11 @@ public class MemberController implements Initializable {
                     registrationDate,
                     membershipStatus,
                     addedBy));
-            showSuccessAlert("Member updated successfully!");
+            AlertsUtil.showSuccessAlert("Member updated successfully!");
             resetPage();
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Failed to update member : " + e.getMessage());
+            AlertsUtil.showErrorAlert("Failed to update member : " + e.getMessage());
         }
     }
 
@@ -278,15 +264,15 @@ public class MemberController implements Initializable {
             String memberId = lblMemberId.getText();
             try {
                 if (!existMember(memberId)) {
-                    showWarnerAlert("Member with ID : " + memberId + " does not exist.");
+                    AlertsUtil.showWarnerAlert("Member with ID : " + memberId + " does not exist.");
                     return;
                 }
                 memberBO.deleteMember(memberId);
-                showSuccessAlert("Member deleted successfully!");
+                AlertsUtil.showSuccessAlert("Member deleted successfully!");
                 resetPage();
             } catch (Exception e) {
                 e.printStackTrace();
-                showErrorAlert("Failed to delete member : " + e.getMessage());
+                AlertsUtil.showErrorAlert("Failed to delete member : " + e.getMessage());
             }
         }
     }
@@ -300,7 +286,7 @@ public class MemberController implements Initializable {
             String newId = memberBO.generateNewMemberId();
             lblMemberId.setText(newId);
         } catch (SQLException | ClassNotFoundException e) {
-            showErrorAlert("Failed to generate a new user ID : " + e.getMessage());
+            AlertsUtil.showErrorAlert("Failed to generate a new user ID : " + e.getMessage());
             e.printStackTrace();
         }
         return "";
