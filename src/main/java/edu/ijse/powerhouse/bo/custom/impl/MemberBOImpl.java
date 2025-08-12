@@ -3,7 +3,6 @@ package edu.ijse.powerhouse.bo.custom.impl;
 import edu.ijse.powerhouse.bo.custom.MemberBO;
 import edu.ijse.powerhouse.dao.DAOFactory;
 import edu.ijse.powerhouse.dao.custom.MemberDAO;
-import edu.ijse.powerhouse.dao.custom.UserDAO;
 import edu.ijse.powerhouse.dto.MemberDTO;
 import edu.ijse.powerhouse.entity.Member;
 
