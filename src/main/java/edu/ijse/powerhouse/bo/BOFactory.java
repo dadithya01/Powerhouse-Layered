@@ -1,9 +1,6 @@
 package edu.ijse.powerhouse.bo;
 
-import edu.ijse.powerhouse.bo.custom.impl.MemberBOImpl;
-import edu.ijse.powerhouse.bo.custom.impl.TrainerBOImpl;
-import edu.ijse.powerhouse.bo.custom.impl.UserBOImpl;
-import edu.ijse.powerhouse.bo.custom.impl.UserTypeBOImpl;
+import edu.ijse.powerhouse.bo.custom.impl.*;
 
 public class BOFactory {
     private static BOFactory boFactory;
@@ -19,7 +16,8 @@ public class BOFactory {
         USER,
         USERTYPE,
         MEMBER,
-        TRAINER
+        TRAINER,
+        EMPLOYEE
     }
 
     public SuperBO getBO(BOType type) {
@@ -32,6 +30,8 @@ public class BOFactory {
                 return new MemberBOImpl();
             case TRAINER:
                 return new TrainerBOImpl();
+            case EMPLOYEE:
+                return new EmployeeBOImpl();
             default:
                 return null;
         }
