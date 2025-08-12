@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.effect.Reflection?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="ancDashBoardO" prefHeight="1135.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.powerhouse.controller.DashBoardOAController">
+<AnchorPane fx:id="ancDashBoardO" prefHeight="1135.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.powerhouse.controller.DashBoardOAController">
    <children>
       <HBox prefHeight="1135.0" prefWidth="1920.0">
          <children>
@@ -102,11 +95,6 @@
                                           <VBox alignment="CENTER" layoutX="57.0" prefHeight="459.0" prefWidth="538.0" spacing="20.0">
                                              <children>
                                                 <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#btnMemberListOnAction" prefHeight="43.0" prefWidth="543.0" style="-fx-background-color: e8e8e8;" text="Member List">
-                                                   <font>
-                                                      <Font name="Serif Bold" size="30.0" />
-                                                   </font>
-                                                </Button>
-                                                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#btnMembershipTypeOnAction" prefHeight="43.0" prefWidth="577.0" style="-fx-background-color: e8e8e8;" text="Membership Type">
                                                    <font>
                                                       <Font name="Serif Bold" size="30.0" />
                                                    </font>

@@ -86,13 +86,6 @@ public class DashBoardOAController implements Initializable {
     }
 
     @FXML
-    void btnMembershipTypeOnAction() throws IOException {
-        sidePane.getChildren().clear();
-        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/MembershipType.fxml"));
-        sidePane.getChildren().add(load);
-    }
-
-    @FXML
     void btnAttendanceOnAction() throws IOException {
         sidePane.getChildren().clear();
         AnchorPane load = FXMLLoader.load(getClass().getResource("/view/Attendance.fxml"));
