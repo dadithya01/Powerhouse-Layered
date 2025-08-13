@@ -106,7 +106,7 @@ public class AttendanceController implements Initializable {
             return "Check-In must be in 'yyyy-MM-dd HH:mm:ss' format";
         }
         if (!checkOut.isEmpty() && !checkOut.matches(TimePattern)) {
-            return "Check-Out must be in 'HH:mm:ss' format or left empty";
+            return "Check-Out must be in 'HH:mm:ss' format";
         }
 
         if (recordedBy.length() < 3) {

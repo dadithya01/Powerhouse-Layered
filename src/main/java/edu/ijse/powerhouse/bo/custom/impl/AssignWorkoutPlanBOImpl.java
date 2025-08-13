@@ -74,12 +74,12 @@ public class AssignWorkoutPlanBOImpl implements AssignWorkoutPlanBO {
     }
 
     @Override
-    public boolean isDuplicateAttendance(String member_id) throws Exception {
+    public boolean isDuplicateAssignWorkoutPlans(String member_id) throws Exception {
         return assignWorkoutPlansDAO.isDuplicateAssignWorkoutPlans(member_id);
     }
 
     @Override
-    public boolean isDuplicateAttendanceForUpdate(String member_id, String workout_plan_id) throws Exception {
+    public boolean isDuplicateAssignWorkoutPlansForUpdate(String member_id, String workout_plan_id) throws Exception {
         return assignWorkoutPlansDAO.isDuplicateAssignWorkoutPlansForUpdate(member_id,workout_plan_id);
     }
 }

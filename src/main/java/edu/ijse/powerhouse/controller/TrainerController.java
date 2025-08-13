@@ -208,7 +208,7 @@ public class TrainerController implements Initializable {
                     bio,
                     rating
             ));
-            AlertsUtil.showErrorAlert("Trainer added successfully!");
+            AlertsUtil.showSuccessAlert("Trainer added successfully!");
             resetPage();
         } catch (Exception e) {
             e.printStackTrace();
@@ -251,6 +251,8 @@ public class TrainerController implements Initializable {
                     bio,
                     rating
             ));
+            AlertsUtil.showSuccessAlert("Trainer updated successfully!");
+            resetPage();
         } catch (Exception e) {
             e.printStackTrace();
             AlertsUtil.showErrorAlert("Something went wrong!");
