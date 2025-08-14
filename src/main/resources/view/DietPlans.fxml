@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="ancEmployeeList" prefHeight="900.0" prefWidth="1325.0" style="-fx-background-color: fefefe;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.powerhouse.controller.DietPlansController">
+    <children>
+        <VBox alignment="TOP_CENTER" layoutX="80.0" layoutY="42.0" prefHeight="900.0" prefWidth="1325.0" spacing="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label fx:id="lblMain" text="Diet Plan Management">
+                    <font>
+                        <Font name="Serif Bold" size="48.0" />
+                    </font>
+                </Label>
+                <HBox prefHeight="231.0" prefWidth="1325.0">
+                    <children>
+                        <VBox alignment="TOP_RIGHT" prefHeight="378.0" prefWidth="395.0" spacing="15.0">
+                            <children>
+                                <Label text="Diet Plan Id :">
+                                    <font>
+                                        <Font name="Serif Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Name :">
+                                    <font>
+                                        <Font name="Serif Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Description :">
+                                    <font>
+                                        <Font name="Serif Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Created By :">
+                                    <font>
+                                        <Font name="Serif Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Created Date :">
+                                    <font>
+                                        <Font name="Serif Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                        <Label layoutX="251.0" layoutY="196.0" text="Calorie Target :">
+                           <font>
+                              <Font name="Serif Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="238.0" layoutY="240.0" text="Protein Target :">
+                           <font>
+                              <Font name="Serif Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="236.0" layoutY="284.0" text="Carbs Target :">
+                           <font>
+                              <Font name="Serif Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="253.0" layoutY="328.0" text="Fat Target :">
+                           <font>
+                              <Font name="Serif Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="279.0" layoutY="372.0" text="Note :">
+                           <font>
+                              <Font name="Serif Bold" size="20.0" />
+                           </font>
+                        </Label>
+                            </children>
+                            <padding>
+                                <Insets right="10.0" top="10.0" />
+                            </padding>
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                        </VBox>
+                        <VBox prefHeight="455.0" prefWidth="552.0" spacing="9.0">
+                            <children>
+                                <Label fx:id="lblDietPlanId" prefHeight="42.0" prefWidth="469.0" text="1">
+                                    <padding>
+                                        <Insets top="10.0" />
+                                    </padding>
+                                    <font>
+                                        <Font name="Serif Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="txtName" style="-fx-background-radius: 10;">
+                                    <padding>
+                                        <Insets top="10.0" />
+                                    </padding>
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font></TextField>
+                                <TextField fx:id="txtDescription" style="-fx-background-radius: 10;">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets top="10.0" />
+                                    </padding>
+                                </TextField>
+                                <TextField fx:id="txtCreatedBy" style="-fx-background-radius: 10;">
+                                    <padding>
+                                        <Insets top="10.0" />
+                                    </padding>
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </TextField>
+                                <TextField fx:id="txtCreatedDate" style="-fx-background-radius: 10;">
+                                    <padding>
+                                        <Insets top="10.0" />
+                                    </padding>
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font></TextField>
+                        <TextField fx:id="txtCalorieTarget" layoutX="20.0" layoutY="193.0" style="-fx-background-radius: 10;">
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtProteinTarget" layoutX="20.0" layoutY="237.0" style="-fx-background-radius: 10;">
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtCarbsTarget" layoutX="20.0" layoutY="281.0" style="-fx-background-radius: 10;">
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtFatTarget" layoutX="20.0" layoutY="325.0" style="-fx-background-radius: 10;">
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtNote" layoutX="20.0" layoutY="369.0" style="-fx-background-radius: 10;">
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="30.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                </HBox>
+                <HBox alignment="TOP_CENTER" prefHeight="11.0" prefWidth="804.0" spacing="50.0">
+                    <children>
+                        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnAction" style="-fx-background-color: #27ae60; -fx-background-radius: 7;" text="Save" textFill="WHITE">
+                            <font>
+                                <Font name="Serif Bold" size="24.0" />
+                            </font></Button>
+                        <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" style="-fx-background-color: #2980b9; -fx-background-radius: 7;" text="Update" textFill="WHITE">
+                            <font>
+                                <Font name="Serif Bold" size="24.0" />
+                            </font></Button>
+                        <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" style="-fx-background-color: #e74c3c; -fx-background-radius: 7;" text="Delete" textFill="WHITE">
+                            <font>
+                                <Font name="Serif Bold" size="24.0" />
+                            </font></Button>
+                        <Button fx:id="btnClear" mnemonicParsing="false" onAction="#btnClearOnAction" style="-fx-background-color: #130f40; -fx-background-radius: 7;" text="Clear" textFill="WHITE">
+                            <font>
+                                <Font name="Serif Bold" size="24.0" />
+                            </font>
+                        </Button>
+                    </children></HBox>
+                <ScrollPane prefHeight="465.0" prefWidth="1325.0">
+                    <content>
+                        <TableView fx:id="tblDietPlan" onMouseClicked="#getData" prefHeight="261.0" prefWidth="1909.0">
+                            <columns>
+                                <TableColumn fx:id="colDietPlanId" prefWidth="130.0" text="Diet Plan Id" />
+                                <TableColumn fx:id="colName" prefWidth="294.0" text="Name" />
+                                <TableColumn fx:id="colDescription" prefWidth="377.0" text="Description" />
+                                <TableColumn fx:id="colCreatedBy" prefWidth="121.0" text="Created By" />
+                                <TableColumn fx:id="colCreatedDate" prefWidth="172.0" text="Created Date" />
+                        <TableColumn fx:id="colCalorieTarget" prefWidth="114.0" text="Calorie Target" />
+                        <TableColumn fx:id="colProteinTarget" prefWidth="114.0" text="Protein Target" />
+                        <TableColumn fx:id="colCarbsTarget" prefWidth="114.0" text="Carbs Target" />
+                        <TableColumn fx:id="colFatTarget" prefWidth="114.0" text="Fat Target" />
+                        <TableColumn fx:id="colNote" prefWidth="314.0" text="Note" />
+                            </columns>
+                        </TableView>
+                    </content>
+                </ScrollPane>
+            </children>
+            <padding>
+                <Insets top="30.0" />
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>

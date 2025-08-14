@@ -20,7 +20,8 @@ public class DAOFactory {
         EMPLOYEE,
         Attendance,
         ASSIGNWORKOUTPLANS,
-        WORKOUTPLANS
+        WORKOUTPLANS,
+        DIETPLANS
     }
 
     public SuperDAO getDAO(DAOType type) {
@@ -41,6 +42,8 @@ public class DAOFactory {
                 return new AssignWorkoutPlansDAOImpl();
             case WORKOUTPLANS:
                 return new WorkoutPlansDAOImpl();
+            case DIETPLANS:
+                return new DietPlansDAOImpl();
             default:
                 return null;
         }

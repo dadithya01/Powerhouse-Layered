@@ -95,7 +95,7 @@ public class DashBoardOAController implements Initializable {
     @FXML
     void btnDietPlansOnAction(ActionEvent event) throws IOException {
         sidePane.getChildren().clear();
-        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/DietPlan.fxml"));
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/DietPlans.fxml"));
         sidePane.getChildren().add(load);
     }
 
