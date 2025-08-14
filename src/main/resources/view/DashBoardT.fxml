@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="ancDashBoardT" prefHeight="1135.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.powerhouse.controller.DashBoardTController">
+   <children>
+      <HBox prefHeight="1135.0" prefWidth="1920.0">
+         <children>
+            <Pane prefHeight="1135.0" prefWidth="664.0" style="-fx-background-color: e8e8e8;">
+               <children>
+                  <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/dumbbell.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblIcon" layoutX="99.0" layoutY="45.0" text="PowerHouse">
+                     <font>
+                        <Font name="Serif Bold" size="40.0" />
+                     </font>
+                     <effect>
+                        <Reflection />
+                     </effect>
+                  </Label>
+                  <VBox alignment="CENTER" layoutY="87.0" prefHeight="953.0" prefWidth="629.0">
+                     <children>
+                        <Accordion>
+                           <panes>
+                              <TitledPane animated="false" prefHeight="635.0" prefWidth="539.0" text="Member Management">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0" style="-fx-background-color: e8e8e8;">
+                                       <children>
+                                          <VBox alignment="CENTER" layoutX="57.0" prefHeight="562.0" prefWidth="501.0" spacing="30.0">
+                                             <children>
+                                                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#btnMemberListOnAction" prefHeight="43.0" prefWidth="531.0" style="-fx-background-color: e8e8e8;" text="Member List">
+                                                   <font>
+                                                      <Font name="Serif Bold" size="30.0" />
+                                                   </font>
+                                                </Button>
+                                                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#btnAttendanceOnAction" prefHeight="43.0" prefWidth="538.0" style="-fx-background-color: e8e8e8;" text="Attendance">
+                                                   <font>
+                                                      <Font name="Serif Bold" size="30.0" />
+                                                   </font>
+                                                </Button>
+                                                <Button alignment="TOP_LEFT" layoutX="10.0" layoutY="189.0" mnemonicParsing="false" onAction="#btnAssignedworkoutOnAction" prefHeight="43.0" prefWidth="538.0" style="-fx-background-color: e8e8e8;" text="Assigned workout">
+                                                   <font>
+                                                      <Font name="Serif Bold" size="30.0" />
+                                                   </font>
+                                                </Button>
+                                                <Button alignment="TOP_LEFT" layoutX="10.0" layoutY="215.0" mnemonicParsing="false" onAction="#btnAssignedDietPlansOnAction" prefHeight="43.0" prefWidth="538.0" style="-fx-background-color: e8e8e8;" text="Assigned Diet Plans">
+                                                   <font>
+                                                      <Font name="Serif Bold" size="30.0" />
+                                                   </font>
+                                                </Button>
+                                             </children>
+                                          </VBox>
+                                       </children></AnchorPane>
+                                 </content>
+                                 <font>
+                                    <Font name="Serif Bold" size="30.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                              </TitledPane>
+                              <TitledPane animated="false" prefHeight="635.0" prefWidth="539.0" text="Workout Plans">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0" style="-fx-background-color: e8e8e8;">
+                                       <children>
+                                          <VBox alignment="CENTER" layoutX="57.0" prefHeight="563.0" prefWidth="501.0" spacing="30.0">
+                                             <children>
+                                                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#btnWorkoutPlanListOnAction" prefHeight="34.0" prefWidth="538.0" style="-fx-background-color: e8e8e8;" text="Workout Plan List">
+                                                   <font>
+                                                      <Font name="Serif Bold" size="30.0" />
+                                                   </font>
+                                                </Button>
+                                                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#btnExercisesLibraryOnAction" prefHeight="34.0" prefWidth="539.0" style="-fx-background-color: e8e8e8;" text="Exercises Library">
+                                                   <font>
+                                                      <Font name="Serif Bold" size="30.0" />
+                                                   </font>
+                                                </Button>
+                                                <Button alignment="TOP_LEFT" layoutX="10.0" layoutY="175.0" mnemonicParsing="false" onAction="#btnDietPlansOnAction" prefHeight="34.0" prefWidth="539.0" style="-fx-background-color: e8e8e8;" text="Diet Plans">
+                                                   <font>
+                                                      <Font name="Serif Bold" size="30.0" />
+                                                   </font>
+                                                </Button>
+                                                <Button alignment="TOP_LEFT" layoutX="10.0" layoutY="243.0" mnemonicParsing="false" onAction="#btnMealListOnAction" prefHeight="34.0" prefWidth="539.0" style="-fx-background-color: e8e8e8;" text="Meal List">
+                                                   <font>
+                                                      <Font name="Serif Bold" size="30.0" />
+                                                   </font>
+                                                </Button>
+                                             </children>
+                                          </VBox>
+                                       </children></AnchorPane>
+                                 </content>
+                                 <font>
+                                    <Font name="Serif Bold" size="30.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                              </TitledPane>
+                           </panes>
+                        </Accordion>
+                     </children>
+                     <padding>
+                        <Insets bottom="100.0" top="100.0" />
+                     </padding></VBox>
+                  <Button fx:id="btnLogout" layoutX="14.0" layoutY="1059.0" mnemonicParsing="false" onAction="#btnLogoutOnAction" prefHeight="62.0" prefWidth="168.0" style="-fx-background-color: #2f3640; -fx-background-radius: 50;" text="Log out" textFill="WHITE">
+                     <font>
+                        <Font name="Serif Bold" size="30.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Pane fx:id="sidePane" prefHeight="900.0" prefWidth="1325.0" style="-fx-background-color: fefefe;">
+               <children>
+                  <ImageView fitHeight="356.0" fitWidth="313.0" layoutX="929.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" rotate="16.3">
+                     <image>
+                        <Image url="@../images/_Set_of_gym_Flork_meme_stickers__Sticker_for_Sale_by_ramonparaiba_in_2024___Gym_memes_funny__Gym__-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="549.0" fitWidth="373.0" layoutX="883.0" layoutY="553.0" pickOnBounds="true" preserveRatio="true" rotate="-16.7">
+                     <image>
+                        <Image url="@../images/rB3M-Clb-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </children></Pane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
