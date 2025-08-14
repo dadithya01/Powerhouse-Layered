@@ -102,6 +102,31 @@ public class WorkoutPlansController implements Initializable {
         }
     }
 
+    private boolean isInputValid() {
+
+        StringBuilder errorMessage = new StringBuilder();
+
+        if (txtName == null || txtName.getText().isBlank()) {
+            errorMessage.append("Name is required.\n");
+        }
+
+        if (txtDurationWeeks == null || txtDurationWeeks.getText().isBlank()) {
+            errorMessage.append("Duration in weeks is required.\n");
+        } else {
+            try {
+                int duration = Integer.parseInt(String.valueOf(txtDurationWeeks));
+                if (duration <= 0) {
+                    errorMessage.append("Duration must be a positive number.\n");
+                }
+            } catch (NumberFormatException e) {
+                errorMessage.append("Duration must be a valid number.\n");
+            }
+        }
+
+        return true;
+    }
+
+
     public void btnSaveOnAction(ActionEvent actionEvent) {
         String workoutPlanId = lblWorkoutPlanId.getText();
         String name = txtName.getText();
@@ -111,6 +136,9 @@ public class WorkoutPlansController implements Initializable {
         String createdDate = txtCreatedDate.getText();
         String durationWeeks = txtDurationWeeks.getText();
 
+        if (!isInputValid()) {
+            return;
+        }
         try {
             workoutPlansBO.saveWorkoutPlans(new WorkoutPlansDTO(
                     workoutPlanId,
@@ -137,6 +165,10 @@ public class WorkoutPlansController implements Initializable {
         String createdBy = txtCreatedBy.getText();
         String createdDate = txtCreatedDate.getText();
         String durationWeeks = txtDurationWeeks.getText();
+
+        if (!isInputValid()) {
+            return;
+        }
 
         try {
             workoutPlansBO.updateWorkoutPlans(new WorkoutPlansDTO(

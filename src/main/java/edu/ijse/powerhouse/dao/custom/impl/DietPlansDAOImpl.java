@@ -11,12 +11,12 @@ import java.util.ArrayList;
 public class DietPlansDAOImpl implements DietPlanDAO {
     @Override
     public boolean isDuplicateDietPlan(String name) throws Exception {
-        return SQLUtil.executeQuery("SELECT 1 FROM DietPlans WHERE name = ?", name).next();
+        return SQLUtil.executeQuery("SELECT 1 FROM Diet_Plan WHERE name = ?", name).next();
     }
 
     @Override
     public boolean isDuplicateDietPlanForUpdate(String diet_plan_id, String name) throws Exception {
-        return SQLUtil.executeQuery("SELECT 1 FROM DietPlans WHERE name = ? AND diet_plan_id != ?", name, diet_plan_id).next();
+        return SQLUtil.executeQuery("SELECT 1 FROM Diet_Plan WHERE name = ? AND diet_plan_id != ?", name, diet_plan_id).next();
     }
 
     @Override
@@ -82,7 +82,7 @@ public class DietPlansDAOImpl implements DietPlanDAO {
 
     @Override
     public String generateNewId() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = SQLUtil.executeQuery(" SELECT employee_id FROM Employee ORDER BY employee_id DESC LIMIT 1");
+        ResultSet resultSet = SQLUtil.executeQuery(" SELECT diet_plan_id FROM Diet_Plan ORDER BY diet_plan_id DESC LIMIT 1");
         String tableCharacter = "DP";
 
         if (resultSet.next()) {

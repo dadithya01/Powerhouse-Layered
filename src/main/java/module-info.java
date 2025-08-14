@@ -3,7 +3,6 @@ module edu.ijse.powerhouse {
     requires javafx.fxml;
     requires java.sql;
     requires static lombok;
-    requires edu.ijse.powerhouse;
 
     opens edu.ijse.powerhouse.controller to javafx.fxml;
     opens edu.ijse.powerhouse.view.tdm to javafx.base;

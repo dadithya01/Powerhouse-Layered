@@ -146,7 +146,7 @@ public class DashBoardOAController implements Initializable {
     @FXML
     void btnWorkoutPlanListOnAction(ActionEvent event) throws IOException {
         sidePane.getChildren().clear();
-        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/WorkoutPlanList.fxml"));
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/WorkoutPlans.fxml"));
         sidePane.getChildren().add(load);
     }
 
